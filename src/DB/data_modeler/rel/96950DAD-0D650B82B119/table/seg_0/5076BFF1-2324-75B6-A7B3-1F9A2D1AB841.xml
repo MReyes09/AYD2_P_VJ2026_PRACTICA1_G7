@@ -1,0 +1,149 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="5076BFF1-2324-75B6-A7B3-1F9A2D1AB841" name="Suscripcion">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>8F3FC929-958F-9118-72EC-0BF09DDD32AE</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<abbreviation>S</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="idSuscripcion" id="92C8E061-1DD2-5B7C-A6A7-3C404F9A7C94">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>87C61EDE-338F-803B-4535-F06BC82C309D</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fechaCompra" id="4089F939-4BD6-5650-CF84-2C846649CB7D">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>E5A571FC-D141-39A7-A3AF-09C410958925</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="fechaCaducidad" id="74DD4B31-7747-FA69-752A-95C7E06490AF">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>77D3196D-0AE3-557F-B166-62F0FD6DA28B</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="idEstadoSuscripcion" id="BFFAFD64-D843-6E64-D63D-2BD65441E313">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>64DA5D4F-A8E0-BBF2-6668-F66CD7502CD9</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9BA96066-BE92-33D2-9C0D-29EEBAD327D2" referredColumn="FF6F3BB9-E849-20D2-9BAC-09A4FD3B68BF"/>
+</associations>
+</Column>
+<Column name="idTarifa" id="F329BAA5-2124-4020-7EAA-DC2FFDEEFE30">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>36B2B3C0-44A1-7D5A-4BF4-BF729C36E723</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A9EB5D53-E157-EAC5-D76A-A7607F611690" referredColumn="7B1822AC-73A3-1C36-BECE-EED8AAD5425C"/>
+</associations>
+</Column>
+<Column name="idPersona" id="717D22F8-4F61-7419-A4FC-4C7E30BBDA42">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>68F8BAA4-BC4B-9847-4791-C6B37FFB789F</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B510AC81-3B20-0B85-8791-7D34457A15DC" referredColumn="C6402C86-B68F-12D3-1A4D-D754CBD2131E"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="CAE23EDD-3AA4-2D17-C726-2D1DC21E4C17" name="Suscripcion_PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>C35F705E-AC68-F28C-EA72-9FD251B11584</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="92C8E061-1DD2-5B7C-A6A7-3C404F9A7C94"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F282A7C7-0874-8D33-6BB3-C2A12E6289CA" name="Suscripcion__IDX">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>850F0B1A-03BB-910F-6772-16466227D0BD</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="717D22F8-4F61-7419-A4FC-4C7E30BBDA42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B4E86CB9-11C8-0DB5-63B4-7A9D3C1E103F" name="Tarifa_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>9524D2A9-5FA0-83B0-3308-C011ECA1F54E</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F329BAA5-2124-4020-7EAA-DC2FFDEEFE30"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="1D669D45-531C-8557-D1D7-7D7EED7F4B67" name="Persona_FKv3">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>850F0B1A-03BB-910F-6772-16466227D0BD</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="717D22F8-4F61-7419-A4FC-4C7E30BBDA42"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3B5FCAB5-F7FB-44AE-F7EB-C0860CBA0046" name="EstadoSuscripcion_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>38482C7B-1D44-F935-3185-A0444E2D0024</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BFFAFD64-D843-6E64-D63D-2BD65441E313"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

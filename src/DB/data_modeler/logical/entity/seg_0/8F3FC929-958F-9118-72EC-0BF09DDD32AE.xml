@@ -1,0 +1,112 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="8F3FC929-958F-9118-72EC-0BF09DDD32AE" name="Suscripcion">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:25:14 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>S</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="idSuscripcion" id="87C61EDE-338F-803B-4535-F06BC82C309D">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:25:21 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fechaCompra" id="E5A571FC-D141-39A7-A3AF-09C410958925">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:25:30 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="fechaCaducidad" id="77D3196D-0AE3-557F-B166-62F0FD6DA28B">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:27:33 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="idEstadoSuscripcion" id="64DA5D4F-A8E0-BBF2-6668-F66CD7502CD9">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:32:47 UTC</createdTime>
+<generatorID>38482C7B-1D44-F935-3185-A0444E2D0024</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<referedAttribute>50150F55-6FE8-AD36-741A-0376E7D6E80C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="idTarifa" id="36B2B3C0-44A1-7D5A-4BF4-BF729C36E723">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:33:13 UTC</createdTime>
+<generatorID>9524D2A9-5FA0-83B0-3308-C011ECA1F54E</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<referedAttribute>A1DD2B93-0270-5F9A-0DE7-6D68AED4D56A</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="idPersona" id="68F8BAA4-BC4B-9847-4791-C6B37FFB789F">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:35:49 UTC</createdTime>
+<generatorID>850F0B1A-03BB-910F-6772-16466227D0BD</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<referedAttribute>881D0985-0758-B83F-EC36-E95996742FF2</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="C35F705E-AC68-F28C-EA72-9FD251B11584" name="SUSCRIPCION PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 19:25:29 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>87C61EDE-338F-803B-4535-F06BC82C309D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
