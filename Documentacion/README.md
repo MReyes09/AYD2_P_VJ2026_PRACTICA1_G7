@@ -115,3 +115,122 @@ Te dejo todo en formato listo para copiar y pegar en tu DDA. Ajusta la numeraci�
 | RF-028 | El sistema debe validar las credenciales ingresadas y denegar el acceso cuando sean incorrectas, mostrando un mensaje de error adecuado.                  | Estudiante, Administrador         |
 
 ***
+
+## Escenarios de Atributos de Calidad (EaC)
+
+### Escenario No. 1 – Usabilidad (Capacidad de aprendizaje)
+
+Contexto: Se busca que el usuario requiera el menor tiempo posible para aprender a usar los formularios del sistema.
+
+Afecta: Usuario \| Capacidad de aprendizaje
+
+| Validación del Escenario | Descripción                                                                                                                                                           |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Origen del estímulo      | Usuario                                                                                                                                                               |
+| Estímulo                 | Colocar el cursor en un campo de entrada de un formulario (input text).                                                                                               |
+| Entorno                  | Condiciones normales de operación.                                                                                                                                    |
+| Artefacto                | Capa de presentación (formularios web).                                                                                                                               |
+| Respuesta                | Mostrar de inmediato una breve descripción del dato que debe ingresarse en el campo (placeholder, tooltip o texto de ayuda).                                         |
+| Medida de la respuesta   | La descripción debe aparecer de forma inmediata, idealmente en menos de 0.5 segundos desde que el campo recibe el foco.                                             |
+
+***
+
+### Escenario No. 2 – Rendimiento (Reproducción de video)
+
+Contexto: El estudiante inicia la reproducción de un curso en video mientras hay otros usuarios conectados.
+
+Afecta: Estudiante \| Experiencia de reproducción
+
+| Validación del Escenario | Descripción                                                                                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Origen del estímulo      | Estudiante                                                                                                                                                        |
+| Estímulo                 | Solicitar la reproducción de un curso en video desde la página de contenido.                                                                                       |
+| Entorno                  | Carga normal del sistema, con varios estudiantes consumiendo contenido simultáneamente.                                                                            |
+| Artefacto                | Módulo de reproducción de contenido y servidor de video.                                                                                                           |
+| Respuesta                | El video inicia la reproducción y se mantiene fluido, sin pausas prolongadas ni cortes perceptibles para el usuario.                                              |
+| Medida de la respuesta   | Tiempo de inicio de reproducción menor a 3 segundos y porcentaje de tiempo de rebuffering menor al 5% del tiempo total de reproducción del video.               |
+
+***
+
+### Escenario No. 3 – Rendimiento (Carga de dashboard)
+
+Contexto: El administrador consulta las métricas de uso de la plataforma en el dashboard.
+
+Afecta: Administrador de contenido \| Productividad
+
+| Validación del Escenario | Descripción                                                                                                                                     |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Origen del estímulo      | Administrador de contenido                                                                                                                      |
+| Estímulo                 | Abrir la vista de dashboard con filtros y gráficas de contenido.                                                                                |
+| Entorno                  | Carga normal, con una base de datos de tamaño medio y actividad de estudiantes en curso.                                                       |
+| Artefacto                | Backend de reportes, consultas analíticas y capa de presentación del dashboard.                                                                |
+| Respuesta                | El dashboard muestra todas las métricas y gráficas solicitadas sin que el administrador perciba lentitud excesiva.                             |
+| Medida de la respuesta   | Tiempo de carga completo de la vista de dashboard menor o igual a 2 segundos.                                                                  |
+
+***
+
+### Escenario No. 4 – Seguridad (Autenticación y credenciales)
+
+Contexto: Cualquier usuario intenta iniciar sesión en la plataforma desde internet público.
+
+Afecta: Estudiante, Administrador \| Confidencialidad
+
+| Validación del Escenario | Descripción                                                                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Origen del estímulo      | Usuario (Estudiante o Administrador)                                                                                                                       |
+| Estímulo                 | Enviar el formulario de inicio de sesión con correo electrónico y contraseña.                                                                              |
+| Entorno                  | Acceso remoto a través de internet público.                                                                                                               |
+| Artefacto                | Módulo de autenticación, servidor de aplicación y almacenamiento de credenciales.                                                                         |
+| Respuesta                | Las credenciales se transportan de forma segura y las contraseñas nunca se almacenan en texto plano.                                                      |
+| Medida de la respuesta   | Todas las peticiones usan HTTPS y las contraseñas se almacenan aplicando algoritmos de hash seguros con sal; no existe almacenamiento de contraseñas en claro. |
+
+***
+
+### Escenario No. 5 – Seguridad (Datos de tarjeta)
+
+Contexto: El estudiante registra o actualiza los datos de su tarjeta para pagar la suscripción.
+
+Afecta: Estudiante \| Protección de datos sensibles
+
+| Validación del Escenario | Descripción                                                                                                                                                            |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Origen del estímulo      | Estudiante                                                                                                                                                             |
+| Estímulo                 | Enviar el formulario de registro o actualización de método de pago con los datos de la tarjeta.                                                              |
+| Entorno                  | Operación normal durante el proceso de suscripción o actualización de datos.                                                                                |
+| Artefacto                | Módulo de pagos, backend y base de datos.                                                                                                                             |
+| Respuesta                | Los datos sensibles de la tarjeta se protegen, se enmascara la visualización y se limita el acceso a componentes autorizados.                                         |
+| Medida de la respuesta   | Número de tarjeta almacenado cifrado o tokenizado; visualización parcial en la interfaz (solo últimos dígitos) y controles de acceso que impiden consultas no autorizadas. |
+
+***
+
+### Escenario No. 6 – Escalabilidad (Crecimiento de usuarios)
+
+Contexto: La cantidad de estudiantes activos crece significativamente en la plataforma.
+
+Afecta: Plataforma \| Capacidad de respuesta
+
+| Validación del Escenario | Descripción                                                                                                                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Origen del estímulo      | Aumento del número de estudiantes concurrentes.                                                                                                                                            |
+| Estímulo                 | Duplicación del número de estudiantes consumiendo contenido y navegando la plataforma de forma simultánea.                                                                                |
+| Entorno                  | Operación normal, con una infraestructura dimensionada para crecimiento.                                                                                                                  |
+| Artefacto                | Servidor de aplicación, base de datos y servicios de contenido multimedia.                                                                                                                |
+| Respuesta                | La plataforma mantiene tiempos de respuesta aceptables para navegación, autenticación y reproducción de contenido.                                                                        |
+| Medida de la respuesta   | El tiempo de respuesta de páginas críticas (inicio de sesión, inicio del estudiante, reproducción de contenido) no aumenta más del 50% respecto a la carga base definida.               |
+
+***
+
+### Escenario No. 7 – Mantenibilidad (Nuevos tipos de contenido)
+
+Contexto: El negocio necesita incorporar un nuevo tipo de contenido en el catálogo.
+
+Afecta: Administrador de contenido \| Facilidad de cambio
+
+| Validación del Escenario | Descripción                                                                                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Origen del estímulo      | Requerimiento del negocio para agregar un nuevo tipo de contenido.                                                                                       |
+| Estímulo                 | Solicitud de configuración de un nuevo tipo de contenido (por ejemplo, “Bootcamp”) desde el módulo de administración.                                             |
+| Entorno                  | Sistema en producción, con ventana de mantenimiento controlada.                                                                                                   |
+| Artefacto                | Modelo de dominio de contenido, módulo de administración y capa de persistencia.                                                                                  |
+| Respuesta                | El nuevo tipo de contenido se agrega sin modificaciones masivas al código y queda disponible para asociarse a nuevos cursos.                                     |
+| Medida de la respuesta   | El cambio se limita a la configuración y a un número reducido de componentes (no más de 3 clases o módulos principales) y se despliega en una única iteración.   |
