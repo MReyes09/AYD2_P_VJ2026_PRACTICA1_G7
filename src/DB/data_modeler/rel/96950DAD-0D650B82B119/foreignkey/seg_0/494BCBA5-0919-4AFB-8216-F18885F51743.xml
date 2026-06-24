@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="494BCBA5-0919-4AFB-8216-F18885F51743" containerWithKeyObject="82CC3302-2E65-3388-0678-A66B64106631" localFKIndex="BD25F9C6-6A06-6CB8-61F4-EEF46CD29A98" name="Dificultad_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>3C3DAB97-09CD-D610-57E7-D82FCEC712B0</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<referredTableLongName>Dificultad</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>4A2022B4-5E3A-0620-D88E-49F95B205428</referredTableID>
+<keyObject>5319F40F-9449-77CD-9CA5-09A92365C9B6</keyObject>
+<referredKeyID>5319F40F-9449-77CD-9CA5-09A92365C9B6</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>idDificultad</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

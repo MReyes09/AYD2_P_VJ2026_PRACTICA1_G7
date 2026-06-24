@@ -1,0 +1,164 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="82CC3302-2E65-3388-0678-A66B64106631" name="Curso">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>04C7B150-65EB-5E08-66E4-C232F1B80948</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<abbreviation>C</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="idCurso" id="1403D543-9714-EE56-6BDD-E1D5CDA9D1E8">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>F413943B-9A42-C6E5-74CF-DF234625660B</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="nombreCurso" id="C96073E2-3333-7555-CD82-C082CC13E22E">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>7252D7A4-05E6-7D4D-4D80-1EF102863A30</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<dataTypeSize>200</dataTypeSize>
+<ownDataTypeParameters>200,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="resumen" id="B46A28AF-7D8D-54AA-39F6-B684869323CA">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>144A2F17-4ED0-C2F6-AE58-496D713239B9</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descripcion" id="EC4AE3EF-40A3-3F8D-A705-EE527758B6EF">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>C5829080-EB10-EF29-8BC6-C03F619CB450</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<dataTypeSize>250</dataTypeSize>
+<ownDataTypeParameters>250,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="anioProduccion" id="C813CBE5-50EF-90A2-264A-210C148499F9">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>C681AD64-AEC0-2BC3-5636-A3F106EA58E3</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="idDificultad" id="349D2F77-4EFE-912F-6BE9-AA32C36B09D8">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>ABCD7229-EEB6-34EC-3839-F782A9D219D9</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="494BCBA5-0919-4AFB-8216-F18885F51743" referredColumn="763C4765-7D21-C924-FFB2-724C6CB8ED57"/>
+</associations>
+</Column>
+<Column name="idPersona" id="52610220-2188-EBD3-41BD-7ED5443628C4">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>09E949B2-48BB-00FF-2512-D0C0FAE25F6F</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="85680EA5-F9B5-FB36-2BBF-8B2E4951B70C" referredColumn="C6402C86-B68F-12D3-1A4D-D754CBD2131E"/>
+</associations>
+</Column>
+<Column name="idTematica" id="DB2195CE-8CFA-1D3F-1A0E-0C7835ABDD05">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>A41D4242-6828-2ABA-4CF1-B9BD4C117E87</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="D36D6059-16C3-D0D2-EFBE-D8A08CE08AEF" referredColumn="81FEB20C-A92D-0353-73CF-C9AA4823947A"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="73AB235A-CC85-637F-B9F2-2FEB030208D0" name="Curso_PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>1470616B-239D-27CA-15B7-65DE5B5EFBEB</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1403D543-9714-EE56-6BDD-E1D5CDA9D1E8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BD25F9C6-6A06-6CB8-61F4-EEF46CD29A98" name="Dificultad_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>3C3DAB97-09CD-D610-57E7-D82FCEC712B0</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="349D2F77-4EFE-912F-6BE9-AA32C36B09D8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2B562B9F-EA44-93D6-A82F-95C0DFAA1343" name="Persona_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>267CC780-BECD-14BF-11AC-6C5969BA8CC9</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52610220-2188-EBD3-41BD-7ED5443628C4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8D4F5B09-95A7-8A17-A5C2-E3F16443FEAA" name="Tematica_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>7DAE6AD7-9B48-DE78-BFFE-7560C31D039B</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="DB2195CE-8CFA-1D3F-1A0E-0C7835ABDD05"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
