@@ -55,3 +55,32 @@ def obtener_perfil(id_persona):
  
     except Exception as e:
         return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+    
+
+@estudiante_bp.route("/<int:id_persona>", methods=["PUT"])
+def actualizar_estudiante(id_persona):
+    """
+    PUT /estudiantes/<id_persona>
+    Actualiza los datos personales del estudiante.
+    Acepta multipart/form-data (con foto) o application/json (sin foto).
+    Solo se modifican los campos que se envíen.
+    """
+    if request.content_type and "multipart/form-data" in request.content_type:
+        datos = request.form.to_dict()
+        archivo_foto = request.files.get("fotografia")
+    else:
+        datos = request.get_json(force=True) or {}
+        archivo_foto = None
+ 
+    try:
+        resultado = EstudianteService.actualizar(id_persona, datos, archivo_foto)
+        return jsonify(resultado), 200
+ 
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+ 
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+ 
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500

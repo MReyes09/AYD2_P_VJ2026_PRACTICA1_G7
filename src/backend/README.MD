@@ -82,3 +82,142 @@ curl -X POST http://localhost:5000/estudiantes \
     "detalle": "..."
 }
 ```
+
+
+## GET `/estudiantes/{id}` — Obtener perfil de estudiante
+
+Retorna los datos personales del estudiante junto con sus tarjetas registradas.
+
+| Campo      | Valor                  |
+|------------|------------------------|
+| **Método** | `GET`                  |
+| **URL**    | `/estudiantes/{id}`    |
+| **Auth**   | No requerida           |
+
+## Parámetros de ruta
+
+| Parámetro | Tipo | Descripción              |
+|-----------|------|--------------------------|
+| `id`      | int  | ID del estudiante        |
+
+## Ejemplo de uso
+
+```bash
+curl -X GET http://localhost:5000/estudiantes/1
+```
+
+## Respuestas
+
+### `200 OK` — Perfil encontrado
+
+```json
+{
+    "idPersona": 1,
+    "nombreCompleto": "Juan Pérez",
+    "fechaNacimiento": "2000-05-15",
+    "mail": "juan@test.com",
+    "nit": 12345678,
+    "fotografia": "uploads/fotografias/a3f9c1d2....jpg",
+    "idRol": 1,
+    "tarjetas": [
+        {
+            "idTarjeta": 1,
+            "fechaVencimiento": "2027-12-01",
+            "idPersona": 1
+        }
+    ]
+}
+```
+
+### `404 Not Found` — Estudiante no existe
+
+```json
+{
+    "error": "Estudiante no encontrado."
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
+
+---
+
+## PUT `/estudiantes/{id}` — Actualizar datos personales
+
+Actualiza los datos personales del estudiante. Solo se modifican los campos que se envíen. Si se incluye una nueva fotografía, la anterior es eliminada del servidor automáticamente.
+
+| Campo      | Valor                  |
+|------------|------------------------|
+| **Método** | `PUT`                  |
+| **URL**    | `/estudiantes/{id}`    |
+| **Body**   | `multipart/form-data`  |
+| **Auth**   | No requerida           |
+
+## Parámetros de ruta
+
+| Parámetro | Tipo | Descripción              |
+|-----------|------|--------------------------|
+| `id`      | int  | ID del estudiante        |
+
+## Campos del body
+
+Todos los campos son opcionales. Solo se actualizan los que se envíen.
+
+| Campo             | Tipo   | Descripción                              |
+|-------------------|--------|------------------------------------------|
+| `nombreCompleto`  | string | Nombre completo del estudiante           |
+| `mail`            | string | Correo electrónico (debe ser único)      |
+| `contrasenia`     | string | Nueva contraseña                         |
+| `fechaNacimiento` | string | Fecha en formato `YYYY-MM-DD`            |
+| `nit`             | int    | NIT del estudiante                       |
+| `fotografia`      | file   | Nueva imagen de perfil (jpg, png, etc.)  |
+
+## Ejemplo de uso
+
+```bash
+curl -X PUT http://localhost:5000/estudiantes/1 \
+  -F "nombreCompleto=Juan Pérez Actualizado" \
+  -F "fotografia=@/ruta/nueva_foto.jpg"
+```
+
+## Respuestas
+
+### `200 OK` — Actualización exitosa
+
+```json
+{
+    "mensaje": "Datos actualizados correctamente.",
+    "idPersona": 1
+}
+```
+
+### `404 Not Found` — Estudiante no existe
+
+```json
+{
+    "error": "Estudiante no encontrado."
+}
+```
+
+### `400 Bad Request` — Correo ya en uso
+
+```json
+{
+    "error": "El correo electrónico ya está en uso por otro estudiante."
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```

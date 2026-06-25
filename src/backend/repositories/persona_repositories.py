@@ -18,3 +18,11 @@ class PersonaRepository:
     @staticmethod
     def obtener_por_id(id_persona: int):
         return Persona.query.get(id_persona)
+    
+    @staticmethod
+    def existe_mail_otro(mail: str, id_persona: int) -> bool:
+        """Verifica si el mail ya lo usa OTRA persona distinta."""
+        return Persona.query.filter(
+            Persona.mail == mail,
+            Persona.idPersona != id_persona
+        ).first() is not None
