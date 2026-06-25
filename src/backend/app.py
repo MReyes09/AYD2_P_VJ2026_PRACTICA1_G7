@@ -9,6 +9,7 @@ import models
 
 # Importar blueprints
 from controllers.estudiante_controller import estudiante_bp
+from controllers.curso_controller import curso_bp
 # from controllers.auth_controller import auth_bp
 # from controllers.persona_controller import persona_bp
 
@@ -25,6 +26,7 @@ def create_app() -> Flask:
 
     # Blueprints
     app.register_blueprint(estudiante_bp)
+    app.register_blueprint(curso_bp)
     # app.register_blueprint(auth_bp)
     # app.register_blueprint(persona_bp)
 
