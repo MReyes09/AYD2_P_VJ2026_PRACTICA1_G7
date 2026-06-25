@@ -1,0 +1,11 @@
+.admin-dashboard {
+  min-height: 100vh;
+  display: flex;
+  background-color: var(--color-bg-main);
+}
+
+.admin-dashboard-main {
+  flex: 1;
+  padding: 1.75rem 2.25rem;
+  overflow-y: auto;
+}

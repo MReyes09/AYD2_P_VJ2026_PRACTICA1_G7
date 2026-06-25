@@ -1,0 +1,72 @@
+.student-home {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding-right: 0.5rem; /* pequeño respiro a la derecha */
+}
+
+.student-home-header h1 {
+  margin: 0 0 0.4rem;
+}
+
+.student-home-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.student-home-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr;
+  gap: 1.6rem;
+}
+
+.student-panel {
+  background-color: rgba(15, 23, 42, 0.95);
+  border-radius: var(--radius-card);
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.student-panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.student-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.student-course-card {
+  background-color: rgba(15, 23, 42, 0.9);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.student-course-card h3 {
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+.student-course-card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.student-course-card .btn-small {
+  margin-top: 0.4rem;
+}
+
+.student-top-list {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
