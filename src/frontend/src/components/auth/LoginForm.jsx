@@ -44,7 +44,7 @@ const LoginForm = () => {
         />
       </label>
 
-      <Link type="submit" className="btn-primary" to="/student">
+      <Link type="submit" className="btn-primary" to="/admin">
         Entrar
       </Link>
       <Link className="btn-secondary" to="/">

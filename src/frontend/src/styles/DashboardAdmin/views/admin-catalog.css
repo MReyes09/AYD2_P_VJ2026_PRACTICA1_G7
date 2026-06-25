@@ -1,0 +1,98 @@
+.admin-catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.admin-catalog-header h1 {
+  margin: 0 0 0.4rem;
+}
+
+.admin-catalog-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.admin-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.admin-catalog-panel {
+  background-color: rgba(15, 23, 42, 0.96);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1.1rem 1.2rem;
+}
+
+.admin-catalog-panel h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+}
+
+.admin-catalog-panel ul {
+  margin: 0 0 0.7rem;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.admin-catalog-search {
+  background-color: rgba(15, 23, 42, 0.96);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1.3rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-catalog-search h2 {
+  margin: 0 0 0.4rem;
+}
+
+.admin-catalog-search p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.admin-catalog-filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 0.8fr;
+  gap: 0.8rem;
+}
+
+.admin-catalog-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.admin-course-card {
+  background-color: rgba(15, 23, 42, 0.9);
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.admin-course-card h3 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.admin-course-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.admin-course-card small {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
