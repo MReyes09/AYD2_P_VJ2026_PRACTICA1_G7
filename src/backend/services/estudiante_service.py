@@ -8,6 +8,7 @@ from models.tarjeta import Tarjeta
 from repositories.persona_repositories import PersonaRepository
 from repositories.tarjeta_repositories import TarjetaRepository
 from repositories.rol_repositories import RolRepository
+from extensions import db, bcrypt
 
 # Carpeta donde se guardan las fotografías
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "..", "uploads", "fotografias")
@@ -70,7 +71,7 @@ class EstudianteService:
             nombreCompleto  = datos["nombreCompleto"].strip(),
             fechaNacimiento = fecha_nac,
             mail            = datos["mail"].strip().lower(),
-            contrasenia     = datos["contrasenia"],          # En producción: hashear
+            contrasenia = bcrypt.generate_password_hash(datos["contrasenia"]).decode("utf-8"),
             nit             = int(datos["nit"]) if datos.get("nit") else None,
             fotografia      = ruta_foto,
             idRol           = rol.idRol,
@@ -98,4 +99,23 @@ class EstudianteService:
             "mensaje":    "Estudiante registrado exitosamente.",
             "idPersona":  nueva_persona.idPersona,
             "idTarjeta":  nueva_tarjeta.idTarjeta,
+        }
+    
+
+    # ------------------------------------------------------------------
+    # Obtener perfil de estudiante
+    # ------------------------------------------------------------------
+    @staticmethod
+    def obtener_perfil(id_persona: int) -> dict:
+        persona = PersonaRepository.obtener_por_id(id_persona)
+ 
+        if not persona:
+            raise LookupError("Estudiante no encontrado.")
+ 
+        # Incluir tarjetas asociadas
+        tarjetas = [t.to_dict() for t in persona.tarjetas]
+ 
+        return {
+            **persona.to_dict(),
+            "tarjetas": tarjetas,
         }

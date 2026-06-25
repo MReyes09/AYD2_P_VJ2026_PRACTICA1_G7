@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from services.estudiante_service import EstudianteService
 
-estudiante_bp = Blueprint("estudiante", __name__, url_prefix="/estudiantes/registro")
+estudiante_bp = Blueprint("estudiante", __name__, url_prefix="/estudiantes")
 
 
 @estudiante_bp.route("", methods=["POST"])
@@ -37,4 +37,21 @@ def registrar_estudiante():
 
     except Exception as e:
         # En producción usa logging en lugar de exponer el mensaje
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+
+
+@estudiante_bp.route("/<int:id_persona>", methods=["GET"])
+def obtener_perfil(id_persona):
+    """
+    GET /estudiantes/<id_persona>
+    Retorna el perfil completo del estudiante junto con sus tarjetas.
+    """
+    try:
+        resultado = EstudianteService.obtener_perfil(id_persona)
+        return jsonify(resultado), 200
+ 
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+ 
+    except Exception as e:
         return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
