@@ -142,5 +142,15 @@ CREATE TABLE Tarjeta (
         ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+
+CREATE TABLE Bitacora (
+    idBitacora  INT AUTO_INCREMENT PRIMARY KEY,
+    idPersona   INT NOT NULL,
+    idContenido INT NOT NULL,
+    fechaVista  DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (idPersona) REFERENCES Persona(idPersona) ON DELETE CASCADE,
+    FOREIGN KEY (idContenido) REFERENCES Contenido(idContenido) ON DELETE CASCADE
+);
+
 -- Reactivar checks
 SET FOREIGN_KEY_CHECKS = 1;
