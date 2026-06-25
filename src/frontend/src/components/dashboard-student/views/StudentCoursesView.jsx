@@ -1,36 +1,46 @@
 // src/components/dashboard-student/views/StudentCoursesView.jsx
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../../styles/DashboardStudent/views/student-courses.css";
 
-const cursosMock = [
-  {
-    id: 1,
-    titulo: "React desde cero",
-    categoria: "Programación",
-    nivel: "Intermedio",
-    anio: 2024,
-  },
-  {
-    id: 2,
-    titulo: "Excel para negocios",
-    categoria: "Negocios",
-    nivel: "Principiante",
-    anio: 2023,
-  },
-];
+const API = "http://localhost:5000/api";
 
 const StudentCoursesView = () => {
+  const [cursos, setCursos] = useState([]);
+  const [tematicas, setTematicas] = useState([]);
+  const [dificultades, setDificultades] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const [categoria, setCategoria] = useState("");
-  const [nivel, setNivel] = useState("");
+  const [idTematica, setIdTematica] = useState("");
+  const [idDificultad, setIdDificultad] = useState("");
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
 
-  const filtrados = cursosMock.filter((c) => {
-    return (
-      c.titulo.toLowerCase().includes(busqueda.toLowerCase()) &&
-      (categoria ? c.categoria === categoria : true) &&
-      (nivel ? c.nivel === nivel : true)
-    );
-  });
+  // Carga los filtros (categorías y niveles) una sola vez al montar
+  useEffect(() => {
+    fetch(`${API}/cursos/filtros`)
+      .then((r) => r.json())
+      .then(({ data }) => {
+        setTematicas(data.tematicas);
+        setDificultades(data.dificultades);
+      })
+      .catch(() => setError("No se pudieron cargar los filtros."));
+  }, []);
+
+  // Consulta cursos cada vez que cambian los filtros
+  useEffect(() => {
+    setCargando(true);
+    setError(null);
+
+    const params = new URLSearchParams();
+    if (busqueda)    params.append("titulo", busqueda);
+    if (idTematica)  params.append("idTematica", idTematica);
+    if (idDificultad) params.append("idDificultad", idDificultad);
+
+    fetch(`${API}/cursos?${params.toString()}`)
+      .then((r) => r.json())
+      .then(({ data }) => setCursos(data))
+      .catch(() => setError("Error al obtener los cursos."))
+      .finally(() => setCargando(false));
+  }, [busqueda, idTematica, idDificultad]);
 
   return (
     <section className="student-courses">
@@ -46,26 +56,42 @@ const StudentCoursesView = () => {
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
         />
-        <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
+
+        {/* Categorías dinámicas desde la BD */}
+        <select value={idTematica} onChange={(e) => setIdTematica(e.target.value)}>
           <option value="">Todas las categorías</option>
-          <option value="Programación">Programación</option>
-          <option value="Negocios">Negocios</option>
+          {tematicas.map((t) => (
+            <option key={t.idTematica} value={t.idTematica}>
+              {t.tipoTematica}
+            </option>
+          ))}
         </select>
-        <select value={nivel} onChange={(e) => setNivel(e.target.value)}>
+
+        {/* Niveles dinámicos desde la BD */}
+        <select value={idDificultad} onChange={(e) => setIdDificultad(e.target.value)}>
           <option value="">Todos los niveles</option>
-          <option value="Principiante">Principiante</option>
-          <option value="Intermedio">Intermedio</option>
-          <option value="Avanzado">Avanzado</option>
+          {dificultades.map((d) => (
+            <option key={d.idDificultad} value={d.idDificultad}>
+              {d.tipoDificultad}
+            </option>
+          ))}
         </select>
       </div>
 
+      {/* Estados de carga y error */}
+      {cargando && <p className="estado-info">Cargando cursos...</p>}
+      {error   && <p className="estado-error">{error}</p>}
+
       <div className="student-courses-grid">
-        {filtrados.map((curso) => (
-          <article key={curso.id} className="student-course-card">
-            <h3>{curso.titulo}</h3>
-            <p>{curso.categoria}</p>
-            <span className="badge-level">{curso.nivel}</span>
-            <small>Año {curso.anio}</small>
+        {!cargando && !error && cursos.length === 0 && (
+          <p className="estado-info">No se encontraron cursos.</p>
+        )}
+        {cursos.map((curso) => (
+          <article key={curso.idCurso} className="student-course-card">
+            <h3>{curso.nombreCurso}</h3>
+            <p>{curso.tipoTematica}</p>
+            <span className="badge-level">{curso.tipoDificultad}</span>
+            <small>Año {curso.anioProduccion}</small>
             <button className="btn-small">Inscribirme</button>
           </article>
         ))}
