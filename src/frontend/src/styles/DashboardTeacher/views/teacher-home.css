@@ -1,0 +1,40 @@
+.teacher-home {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.teacher-home-header h1 {
+  margin: 0 0 0.4rem;
+}
+
+.teacher-home-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.teacher-home-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.teacher-stat-card {
+  background-color: rgba(15, 23, 42, 0.96);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1rem 1.1rem;
+}
+
+.teacher-stat-card .stat-label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.teacher-stat-card .stat-value {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}

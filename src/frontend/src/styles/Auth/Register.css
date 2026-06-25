@@ -1,0 +1,212 @@
+.register-page {
+  min-height: 100vh;
+  background: radial-gradient(
+      circle at top left,
+      rgba(56, 189, 248, 0.25),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(34, 197, 94, 0.18),
+      transparent 55%
+    ),
+    var(--color-bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+.register-shell {
+  width: 100%;
+  max-width: 980px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; /* lado izquierdo más pequeño */
+  background-color: rgba(15, 23, 42, 0.96);
+  border-radius: 20px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+/* Panel izquierdo */
+
+.register-side {
+  padding: 2rem 2.2rem;
+}
+
+.register-side--left {
+  border-right: 1px solid rgba(148, 163, 184, 0.25);
+  background: radial-gradient(
+      circle at top,
+      rgba(56, 189, 248, 0.3),
+      transparent 55%
+    ),
+    rgba(15, 23, 42, 0.96);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.register-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.register-logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: var(--color-accent-soft);
+  font-size: 0.9rem;
+}
+
+.register-logo-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.register-copy h1 {
+  margin: 0 0 0.6rem;
+  font-size: 1.6rem;
+}
+
+.register-copy p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  max-width: 280px;
+}
+
+.register-nav-buttons {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+/* Panel derecho (formulario) */
+
+.register-side--right {
+  background-color: rgba(15, 23, 42, 0.98);
+}
+
+.register-form {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.register-form h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.3rem;
+}
+
+.register-form-helper {
+  margin: 0 0 0.6rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* Filas del formulario */
+
+.register-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register-row--inline {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.register-section-title {
+  margin: 0.8rem 0 0.3rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+/* Hint para fotografía */
+
+.register-field-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  align-self: flex-end;
+  margin-top: 1.4rem;
+}
+
+/* Footer */
+
+.register-footer {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.register-helper {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Ajustes de botones */
+
+.register-nav-buttons .btn-secondary,
+.register-nav-buttons .btn-primary {
+  padding: 0.45rem 1.3rem;
+}
+
+/* Responsive */
+
+@media (max-width: 960px) {
+  .register-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .register-side--left {
+    border-right: none;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  }
+
+  .register-side {
+    padding: 1.7rem 1.8rem;
+  }
+
+  .register-form {
+    max-width: 100%;
+  }
+
+  .register-copy p {
+    max-width: 100%;
+  }
+}
+
+.register-photo-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background-color: rgba(15, 23, 42, 0.9);
+}
+
+.register-photo-preview img {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 999px;
+  object-fit: cover;
+}
