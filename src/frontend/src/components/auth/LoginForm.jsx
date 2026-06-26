@@ -32,6 +32,7 @@ const LoginForm = () => {
         idRol: resultado.idRol,
       };
       localStorage.setItem("userId", String(resultado.idPersona));
+      localStorage.setItem("userName", String(resultado.nombreCompleto));
 
       // Toast de éxito
       showToast("success", "Inicio de sesión exitoso.");
