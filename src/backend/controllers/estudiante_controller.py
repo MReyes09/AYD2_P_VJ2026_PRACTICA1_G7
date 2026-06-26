@@ -84,3 +84,33 @@ def actualizar_estudiante(id_persona):
  
     except Exception as e:
         return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+    
+
+
+@estudiante_bp.route("/<int:id_persona>/tarjeta", methods=["PUT"])
+def actualizar_tarjeta(id_persona):
+    """
+    PUT /estudiantes/<id_persona>/tarjeta
+    Reemplaza la tarjeta de pago del estudiante.
+ 
+    Body (JSON o form-data):
+        numeroTarjeta    str  requerido
+        fechaVencimiento str  requerido  YYYY-MM o YYYY-MM-DD
+    """
+    if request.content_type and "multipart/form-data" in request.content_type:
+        datos = request.form.to_dict()
+    else:
+        datos = request.get_json(force=True) or {}
+ 
+    try:
+        resultado = EstudianteService.actualizar_tarjeta(id_persona, datos)
+        return jsonify(resultado), 200
+ 
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+ 
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+ 
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500

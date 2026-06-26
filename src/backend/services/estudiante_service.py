@@ -190,4 +190,55 @@ class EstudianteService:
             "mensaje":   "Datos actualizados correctamente.",
             "idPersona": persona.idPersona,
         }
+
+    
+    # ------------------------------------------------------------------
+    # Actualizar tarjeta de pago del estudiante
+    # ------------------------------------------------------------------
+    @staticmethod
+    def actualizar_tarjeta(id_persona: int, datos: dict) -> dict:
+        """
+        Reemplaza la tarjeta de pago del estudiante.
  
+        Campos esperados en `datos`:
+            numeroTarjeta    str  requerido  (número de la nueva tarjeta)
+            fechaVencimiento str  requerido  YYYY-MM o YYYY-MM-DD
+        """
+        # 1. Verificar que el estudiante existe
+        persona = PersonaRepository.obtener_por_id(id_persona)
+        if not persona:
+            raise LookupError("Estudiante no encontrado.")
+ 
+        # 2. Validar campos requeridos
+        requeridos = ["numeroTarjeta", "fechaVencimiento"]
+        faltantes = [c for c in requeridos if not datos.get(c)]
+        if faltantes:
+            raise ValueError(f"Campos requeridos faltantes: {', '.join(faltantes)}")
+ 
+        # 3. Parsear fecha de vencimiento
+        fv_raw = datos["fechaVencimiento"]
+        if len(fv_raw) == 7:        # formato YYYY-MM
+            fv_raw = fv_raw + "-01"
+        fecha_venc = datetime.strptime(fv_raw, "%Y-%m-%d").date()
+ 
+        # 4. Eliminar tarjeta anterior si existe
+        tarjeta_actual = TarjetaRepository.obtener_por_persona(id_persona)
+        if tarjeta_actual:
+            TarjetaRepository.eliminar(tarjeta_actual)
+ 
+        # 5. Crear nueva tarjeta con el número como PK
+        nueva_tarjeta = Tarjeta(
+            idTarjeta        = int(datos["numeroTarjeta"]),
+            fechaVencimiento = fecha_venc,
+            idPersona        = id_persona,
+        )
+        TarjetaRepository.crear(nueva_tarjeta)
+ 
+        # 6. Confirmar transacción
+        db.session.commit()
+ 
+        return {
+            "mensaje":   "Tarjeta actualizada correctamente.",
+            "idTarjeta": nueva_tarjeta.idTarjeta,
+            "idPersona": id_persona,
+        }
