@@ -154,3 +154,7 @@ CREATE TABLE Bitacora (
 
 -- Reactivar checks
 SET FOREIGN_KEY_CHECKS = 1;
+
+ALTER TABLE Persona MODIFY contrasenia VARCHAR(60) NOT NULL;
+ALTER TABLE Tarjeta MODIFY idTarjeta BIGINT NOT NULL;
+ALTER TABLE Tarifa ADD COLUMN descripcion VARCHAR(200);
