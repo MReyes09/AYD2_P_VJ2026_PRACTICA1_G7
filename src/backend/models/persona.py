@@ -21,8 +21,7 @@ class Persona(db.Model):
     rol      = db.relationship("Rol", back_populates="personas")
     tarjetas = db.relationship("Tarjeta", back_populates="persona", cascade="all, delete-orphan", lazy="dynamic")
 
-    # Pendientes — se agregan cuando se implemente cada módulo:
-    # suscripcion = db.relationship("Suscripcion", ...)
+    suscripcion = db.relationship("Suscripcion", back_populates="persona", uselist=False, cascade="all, delete-orphan")
 
     def to_dict(self):
         return {

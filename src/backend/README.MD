@@ -295,3 +295,138 @@ curl -X PUT http://localhost:5000/estudiantes/1/tarjeta \
     "detalle": "..."
 }
 ```
+---
+
+# MODULO SUSCRIPCIÓN
+
+## GET `/tarifas` — Listar tarifas disponibles
+
+Retorna todas las tarifas de suscripción disponibles en la plataforma.
+
+| Campo      | Valor        |
+|------------|--------------|
+| **Método** | `GET`        |
+| **URL**    | `/tarifas`   |
+| **Auth**   | No requerida |
+
+## Ejemplo de uso
+
+```bash
+curl -X GET http://localhost:5000/tarifas
+```
+
+## Respuestas
+
+### `200 OK` — Lista de tarifas
+
+```json
+[
+    {
+        "descripcion": "Acceso completo por 1 mes",
+        "idTarifa": 1,
+        "precio": 50.0,
+        "tipoTarifa": "Mensual"
+    },
+    {
+        "descripcion": "Ahorra 10% vs mensual, válido 3 meses",
+        "idTarifa": 2,
+        "precio": 130.0,
+        "tipoTarifa": "Trimestral"
+    },
+    {
+        "descripcion": "La mejor opción, ahorra 20% vs mensual",
+        "idTarifa": 3,
+        "precio": 480.0,
+        "tipoTarifa": "Anual"
+    }
+]
+
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
+
+---
+
+## POST `/suscripciones` — Adquirir suscripción
+
+Crea una suscripción para el estudiante según la tarifa seleccionada. La fecha de caducidad se calcula automáticamente: Mensual +1 mes, Trimestral +3 meses, Anual +12 meses. Un estudiante solo puede tener una suscripción registrada a la vez.
+
+| Campo      | Valor              |
+|------------|--------------------|
+| **Método** | `POST`             |
+| **URL**    | `/suscripciones`   |
+| **Body**   | `application/json` |
+| **Auth**   | No requerida       |
+
+## Campos del body
+
+| Campo       | Tipo | Requerido | Descripción                  |
+|-------------|------|-----------|------------------------------|
+| `idPersona` | int  | SI        | ID del estudiante            |
+| `idTarifa`  | int  | SI        | ID de la tarifa seleccionada |
+
+## Ejemplo de uso
+
+```bash
+curl -X POST http://localhost:5000/suscripciones \
+  -H "Content-Type: application/json" \
+  -d '{
+    "idPersona": 1,
+    "idTarifa": 2
+  }'
+```
+
+## Respuestas
+
+### `201 Created` — Suscripción adquirida
+
+```json
+{
+    "mensaje": "Suscripción adquirida exitosamente.",
+    "idSuscripcion": 1,
+    "fechaCompra": "2026-06-25",
+    "fechaCaducidad": "2026-09-25",
+    "tipoTarifa": "trimestral",
+    "precio": 130.00
+}
+```
+
+### `400 Bad Request` — Estudiante ya tiene suscripción
+
+```json
+{
+    "error": "El estudiante ya cuenta con una suscripción registrada."
+}
+```
+
+### `400 Bad Request` — Campos requeridos faltantes
+
+```json
+{
+    "error": "Campos requeridos faltantes: idTarifa"
+}
+```
+
+### `404 Not Found` — Estudiante no existe
+
+```json
+{
+    "error": "Estudiante no encontrado."
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
