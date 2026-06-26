@@ -647,3 +647,122 @@ curl -X PUT http://localhost:5000/suscripciones/1/renovar \
     "detalle": "..."
 }
 ```
+# MODULO CURSOS ADMIN
+
+## Endpoints — Gestión de Dificultades
+
+Base URL: `http://localhost:5000`
+
+---
+
+## GET `/dificultades` — Listar dificultades
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/dificultades` |
+
+```bash
+curl -X GET http://localhost:5000/dificultades
+```
+
+### `200 OK`
+```json
+[
+    { "idDificultad": 1, "tipoDificultad": "Principiante" },
+    { "idDificultad": 2, "tipoDificultad": "Intermedio" },
+    { "idDificultad": 3, "tipoDificultad": "Avanzado" }
+]
+```
+
+---
+
+## POST `/dificultades` — Crear dificultad
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/dificultades` |
+| **Body** | `application/json` |
+
+| Campo | Tipo | Requerido |
+|-------|------|-----------|
+| `tipoDificultad` | string | SI |
+
+```bash
+curl -X POST http://localhost:5000/dificultades \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoDificultad": "Principiante" }'
+```
+
+### `201 Created`
+```json
+{
+    "mensaje": "Dificultad creada exitosamente.",
+    "idDificultad": 1,
+    "tipoDificultad": "Principiante"
+}
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe una dificultad con el nombre 'Principiante'." }
+```
+
+---
+
+## PUT `/dificultades/{id}` — Actualizar dificultad
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/dificultades/{id}` |
+| **Body** | `application/json` |
+
+```bash
+curl -X PUT http://localhost:5000/dificultades/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoDificultad": "Básico" }'
+```
+
+### `200 OK`
+```json
+{
+    "mensaje": "Dificultad actualizada exitosamente.",
+    "idDificultad": 1,
+    "tipoDificultad": "Básico"
+}
+```
+
+### `404 Not Found`
+```json
+{ "error": "Dificultad no encontrada." }
+```
+
+---
+
+## DELETE `/dificultades/{id}` — Eliminar dificultad
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/dificultades/{id}` |
+
+```bash
+curl -X DELETE http://localhost:5000/dificultades/1
+```
+
+### `200 OK`
+```json
+{ "mensaje": "Dificultad eliminada exitosamente." }
+```
+
+### `400 Bad Request` — En uso por un curso
+```json
+{ "error": "No se puede eliminar la dificultad porque hay cursos que la están usando." }
+```
+
+### `404 Not Found`
+```json
+{ "error": "Dificultad no encontrada." }
+```

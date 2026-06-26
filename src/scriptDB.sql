@@ -158,3 +158,13 @@ SET FOREIGN_KEY_CHECKS = 1;
 ALTER TABLE Persona MODIFY contrasenia VARCHAR(60) NOT NULL;
 ALTER TABLE Tarjeta MODIFY idTarjeta BIGINT NOT NULL;
 ALTER TABLE Tarifa ADD COLUMN descripcion VARCHAR(200);
+
+-- Tabla para contenido del curso
+CREATE TABLE TipoContenido (
+    idTipoContenido INT AUTO_INCREMENT PRIMARY KEY,
+    tipoContenido   VARCHAR(50) NOT NULL
+);
+
+ALTER TABLE Contenido ADD COLUMN idTipoContenido INT;
+ALTER TABLE Contenido ADD CONSTRAINT fk_contenido_tipo 
+    FOREIGN KEY (idTipoContenido) REFERENCES TipoContenido(idTipoContenido);
