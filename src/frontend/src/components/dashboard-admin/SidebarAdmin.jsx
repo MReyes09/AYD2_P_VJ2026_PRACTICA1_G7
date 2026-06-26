@@ -1,5 +1,7 @@
 // src/components/dashboard-admin/SidebarAdmin.jsx
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import "../../styles/DashboardAdmin/sidebar-admin.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -8,6 +10,14 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import StorageIcon from "@mui/icons-material/Storage";
 
 const SidebarAdmin = ({ vistaActiva, setVista }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Limpiar cualquier dato de sesión si es necesario
+    localStorage.removeItem("userId");
+    navigate("/");
+  }
+
   return (
     <aside className="sidebar-admin">
       <div className="sidebar-admin-header">
@@ -42,7 +52,7 @@ const SidebarAdmin = ({ vistaActiva, setVista }) => {
             <BarChartIcon />
             <span>Analíticas de uso</span>
           </li>
-          <li onClick={() => console.log("Salir administrador")}>
+          <li onClick={() => handleLogout()}>
             <LogoutIcon />
             <span>Salir</span>
           </li>
