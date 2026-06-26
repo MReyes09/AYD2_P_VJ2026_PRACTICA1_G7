@@ -9,11 +9,20 @@ const api = axios.create({
 
 // Función para registrar estudiante con soporte de archivo (FormData)
 export const registrarEstudiante = async (formData) => {
-  // formData es un objeto FormData ya construido en el componente
-  const response = await api.post("/estudiantes", formData, {
+  const response = await api.post("/estudiantes/registro", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+  });
+  return response.data;
+};
+
+// Función para iniciar sesión
+// Envía { mail, password } y recibe { idPersona, nombreCompleto, mail, idRol }
+export const login = async (mail, password) => {
+  const response = await api.post("/api/auth/login", {
+    mail,
+    password,
   });
   return response.data;
 };
