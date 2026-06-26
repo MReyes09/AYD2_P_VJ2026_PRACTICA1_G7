@@ -1,5 +1,7 @@
 // src/components/dashboard-student/SidebarStudent.jsx
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import "../../styles/DashboardStudent/sidebar-student.css";
 import SchoolIcon from "@mui/icons-material/School";
 import HomeIcon from "@mui/icons-material/Home";
@@ -9,6 +11,14 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const SidebarStudent = ({ vistaActiva, setVista }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Limpiar cualquier dato de sesión si es necesario
+    localStorage.removeItem("userId");
+    navigate("/");
+  }
+
   return (
     <aside className="sidebar-student">
       <div className="sidebar-student-header">
@@ -48,7 +58,7 @@ const SidebarStudent = ({ vistaActiva, setVista }) => {
             <AccountCircleIcon />
             <span>Perfil y suscripción</span>
           </li>
-          <li onClick={() => console.log("Salir estudiante")}>
+          <li onClick={() => handleLogout()}>
             <LogoutIcon />
             <span>Salir</span>
           </li>

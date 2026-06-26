@@ -1,6 +1,8 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastProvider } from "./context/ToastContext";
+import ToastMessage from "./components/ToastMessage";
 
 // Páginas
 import Home from "./pages/Home.jsx";
@@ -13,20 +15,25 @@ import DashboardAdmin from "./pages/DashboardAdmin.jsx";
 const App = () => {
   return (
     <Router>
-      <Routes>
+      <ToastProvider>
+        {/* Componente flotante global */}
+        <ToastMessage />
+        <Routes>        
         {/* Público */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        {/* Dashboards */}
-        <Route path="/student" element={<DashboardStudent />} />
-        <Route path="/teacher" element={<DashboardTeacher />} />
-        <Route path="/admin" element={<DashboardAdmin />} />
+          {/* Dashboards */}
+          <Route path="/student" element={<DashboardStudent />} />
+          <Route path="/teacher" element={<DashboardTeacher />} />
+          <Route path="/admin" element={<DashboardAdmin />} />
 
-        {/* Ruta por defecto: redirige a Home */}
-        <Route path="*" element={<Home />} />
-      </Routes>
+          {/* Ruta por defecto: redirige a Home */}
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </ToastProvider>
+      
     </Router>
   );
 };
