@@ -766,3 +766,126 @@ curl -X DELETE http://localhost:5000/dificultades/1
 ```json
 { "error": "Dificultad no encontrada." }
 ```
+
+## Endpoints — Gestión de Temáticas
+
+Base URL: `http://localhost:5000`
+
+---
+
+## GET `/tematicas` — Listar temáticas
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/tematicas` |
+
+```bash
+curl -X GET http://localhost:5000/tematicas
+```
+
+### `200 OK`
+```json
+[
+    { "idTematica": 1, "tipoTematica": "Programación" },
+    { "idTematica": 2, "tipoTematica": "Diseño" },
+    { "idTematica": 3, "tipoTematica": "Negocios" }
+]
+```
+
+---
+
+## POST `/tematicas` — Crear temática
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/tematicas` |
+| **Body** | `application/json` |
+
+| Campo | Tipo | Requerido |
+|-------|------|-----------|
+| `tipoTematica` | string | ✅ |
+
+```bash
+curl -X POST http://localhost:5000/tematicas \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoTematica": "Programación" }'
+```
+
+### `201 Created`
+```json
+{
+    "mensaje": "Temática creada exitosamente.",
+    "idTematica": 1,
+    "tipoTematica": "Programación"
+}
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe una temática con el nombre 'Programación'." }
+```
+
+---
+
+## PUT `/tematicas/{id}` — Actualizar temática
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/tematicas/{id}` |
+| **Body** | `application/json` |
+
+```bash
+curl -X PUT http://localhost:5000/tematicas/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoTematica": "Diseño Gráfico" }'
+```
+
+### `200 OK`
+```json
+{
+    "mensaje": "Temática actualizada exitosamente.",
+    "idTematica": 1,
+    "tipoTematica": "Diseño Gráfico"
+}
+```
+
+### `404 Not Found`
+```json
+{ "error": "Temática no encontrada." }
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe una temática con el nombre 'Diseño Gráfico'." }
+```
+
+---
+
+## DELETE `/tematicas/{id}` — Eliminar temática
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/tematicas/{id}` |
+
+```bash
+curl -X DELETE http://localhost:5000/tematicas/1
+```
+
+### `200 OK`
+```json
+{ "mensaje": "Temática eliminada exitosamente." }
+```
+
+### `400 Bad Request` — En uso por un curso
+```json
+{ "error": "No se puede eliminar la temática porque hay cursos que la están usando." }
+```
+
+### `404 Not Found`
+```json
+{ "error": "Temática no encontrada." }
+```
