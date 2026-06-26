@@ -92,3 +92,18 @@ class SuscripcionService:
             "tipoTarifa":     tarifa.tipoTarifa,
             "precio":         float(tarifa.precio),
         }
+    
+    # ------------------------------------------------------------------
+    # Ver suscripción activa del estudiante
+    # ------------------------------------------------------------------
+    @staticmethod
+    def obtener_por_estudiante(id_persona: int) -> dict:
+        persona = PersonaRepository.obtener_por_id(id_persona)
+        if not persona:
+            raise LookupError("Estudiante no encontrado.")
+ 
+        suscripcion = SuscripcionRepository.obtener_por_persona(id_persona)
+        if not suscripcion:
+            raise LookupError("El estudiante no tiene una suscripción registrada.")
+ 
+        return suscripcion.to_dict()
