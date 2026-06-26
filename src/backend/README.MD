@@ -889,3 +889,129 @@ curl -X DELETE http://localhost:5000/tematicas/1
 ```json
 { "error": "Temática no encontrada." }
 ```
+
+
+---
+
+# Endpoints — Gestión de Tipos de Contenido
+
+Base URL: `http://localhost:5000`
+
+---
+
+## GET `/tipos-contenido` — Listar tipos de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/tipos-contenido` |
+
+```bash
+curl -X GET http://localhost:5000/tipos-contenido
+```
+
+### `200 OK`
+```json
+[
+    { "idTipoContenido": 1, "tipoContenido": "Clase grabada" },
+    { "idTipoContenido": 2, "tipoContenido": "Taller en vivo" },
+    { "idTipoContenido": 3, "tipoContenido": "Conferencia" }
+]
+```
+
+---
+
+## POST `/tipos-contenido` — Crear tipo de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/tipos-contenido` |
+| **Body** | `application/json` |
+
+| Campo | Tipo | Requerido |
+|-------|------|-----------|
+| `tipoContenido` | string | si |
+
+```bash
+curl -X POST http://localhost:5000/tipos-contenido \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoContenido": "Clase grabada" }'
+```
+
+### `201 Created`
+```json
+{
+    "mensaje": "Tipo de contenido creado exitosamente.",
+    "idTipoContenido": 1,
+    "tipoContenido": "Clase grabada"
+}
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe un tipo de contenido con el nombre 'Clase grabada'." }
+```
+
+---
+
+## PUT `/tipos-contenido/{id}` — Actualizar tipo de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/tipos-contenido/{id}` |
+| **Body** | `application/json` |
+
+```bash
+curl -X PUT http://localhost:5000/tipos-contenido/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoContenido": "Taller en vivo" }'
+```
+
+### `200 OK`
+```json
+{
+    "mensaje": "Tipo de contenido actualizado exitosamente.",
+    "idTipoContenido": 1,
+    "tipoContenido": "Taller en vivo"
+}
+```
+
+### `404 Not Found`
+```json
+{ "error": "Tipo de contenido no encontrado." }
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe un tipo de contenido con el nombre 'Taller en vivo'." }
+```
+
+---
+
+## DELETE `/tipos-contenido/{id}` — Eliminar tipo de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/tipos-contenido/{id}` |
+
+```bash
+curl -X DELETE http://localhost:5000/tipos-contenido/1
+```
+
+### `200 OK`
+```json
+{ "mensaje": "Tipo de contenido eliminado exitosamente." }
+```
+
+### `400 Bad Request` — En uso por un contenido
+```json
+{ "error": "No se puede eliminar el tipo de contenido porque hay contenidos que lo están usando." }
+```
+
+### `404 Not Found`
+```json
+{ "error": "Tipo de contenido no encontrado." }
+```
