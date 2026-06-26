@@ -6,6 +6,5 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO Rol(tipoRol)
 VALUES
-('Admin'),
-('Docente'),
-('Alumno');
+('Estudiante'),
+('Admin');
