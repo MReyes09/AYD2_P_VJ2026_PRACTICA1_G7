@@ -1,6 +1,6 @@
 // src/components/auth/RegisterForm.jsx
 import React, { useState } from "react";
-import "../../styles/auth/Register.css";
+import "../../styles/Auth/Register.css";
 import { registrarEstudiante } from "../../controllers/auth/authcController";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../../context/ToastContext";
