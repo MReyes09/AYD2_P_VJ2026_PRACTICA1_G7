@@ -221,3 +221,77 @@ curl -X PUT http://localhost:5000/estudiantes/1 \
     "detalle": "..."
 }
 ```
+---
+
+
+## PUT `/estudiantes/{id}/tarjeta` — Actualizar tarjeta de pago
+
+Reemplaza la tarjeta de pago del estudiante. Si ya tenía una tarjeta registrada, se elimina y se crea la nueva con el número de tarjeta como identificador.
+
+| Campo      | Valor                          |
+|------------|--------------------------------|
+| **Método** | `PUT`                          |
+| **URL**    | `/estudiantes/{id}/tarjeta`    |
+| **Body**   | `application/json`             |
+| **Auth**   | No requerida                   |
+
+## Parámetros de ruta
+
+| Parámetro | Tipo | Descripción       |
+|-----------|------|-------------------|
+| `id`      | int  | ID del estudiante |
+
+## Campos del body
+
+| Campo             | Tipo   | Requerido | Descripción                       |
+|-------------------|--------|-----------|-----------------------------------|
+| `numeroTarjeta`   | string | si        | Número de la nueva tarjeta        |
+| `fechaVencimiento`| string | si        | Vencimiento en formato `YYYY-MM`  |
+
+## Ejemplo de uso
+
+```bash
+curl -X PUT http://localhost:5000/estudiantes/1/tarjeta \
+  -H "Content-Type: application/json" \
+  -d '{
+    "numeroTarjeta": "4111111111111111",
+    "fechaVencimiento": "2028-06"
+  }'
+```
+
+## Respuestas
+
+### `200 OK` — Tarjeta actualizada
+
+```json
+{
+    "mensaje": "Tarjeta actualizada correctamente.",
+    "idTarjeta": 4111111111111111,
+    "idPersona": 1
+}
+```
+
+### `404 Not Found` — Estudiante no existe
+
+```json
+{
+    "error": "Estudiante no encontrado."
+}
+```
+
+### `400 Bad Request` — Campos requeridos faltantes
+
+```json
+{
+    "error": "Campos requeridos faltantes: numeroTarjeta, fechaVencimiento"
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
