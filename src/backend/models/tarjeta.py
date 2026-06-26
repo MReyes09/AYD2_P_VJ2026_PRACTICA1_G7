@@ -4,7 +4,7 @@ from extensions import db
 class Tarjeta(db.Model):
     __tablename__ = "Tarjeta"
 
-    idTarjeta        = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    idTarjeta        = db.Column(db.BigInteger, primary_key=True)  # número de tarjeta como PK
     fechaVencimiento = db.Column(db.Date, nullable=False)
     idPersona        = db.Column(
         db.Integer,

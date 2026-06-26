@@ -1,11 +1,14 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
 from config import Config
 from extensions import db
+from extensions import db, bcrypt
+
 
 # Importar modelos para que SQLAlchemy los registre
 import models
+import os
 
 # Importar blueprints
 from controllers.estudiante_controller import estudiante_bp
@@ -22,6 +25,7 @@ def create_app() -> Flask:
 
     # Extensiones
     db.init_app(app)
+    bcrypt.init_app(app)
     CORS(app)
 
     # Blueprints
@@ -29,6 +33,12 @@ def create_app() -> Flask:
     app.register_blueprint(curso_bp)
     # app.register_blueprint(auth_bp)
     # app.register_blueprint(persona_bp)
+
+    # Endpoint para servir fotografías
+    @app.route("/uploads/<path:filename>")
+    def servir_foto(filename):
+        carpeta = os.path.join(os.path.dirname(__file__), "uploads")
+        return send_from_directory(carpeta, filename)
 
     # Endpoint de salud
     @app.get("/api/health")
