@@ -59,3 +59,52 @@ def obtener_suscripcion_estudiante(id_persona):
  
     except Exception as e:
         return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+    
+
+
+@suscripcion_bp.route("/suscripciones/<int:id_suscripcion>/cancelar", methods=["PUT"])
+def cancelar_suscripcion(id_suscripcion):
+    """
+    PUT /suscripciones/<id_suscripcion>/cancelar
+    Cambia el estado de la suscripción a 'cancelada'.
+    El acceso se mantiene hasta la fechaCaducidad.
+    """
+    try:
+        resultado = SuscripcionService.cancelar(id_suscripcion)
+        return jsonify(resultado), 200
+ 
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+ 
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+ 
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+ 
+ 
+@suscripcion_bp.route("/suscripciones/<int:id_suscripcion>/renovar", methods=["PUT"])
+def renovar_suscripcion(id_suscripcion):
+    """
+    PUT /suscripciones/<id_suscripcion>/renovar
+    Suma los meses de la tarifa a la fechaCaducidad actual.
+    Si se envía idTarifa, cambia el plan antes de renovar.
+    Si estaba cancelada, la reactiva automáticamente.
+ 
+    Body (JSON) opcional:
+        idTarifa  int  opcional
+    """
+    datos = request.get_json(force=True) or {}
+ 
+    try:
+        resultado = SuscripcionService.renovar(id_suscripcion, datos)
+        return jsonify(resultado), 200
+ 
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+ 
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+ 
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500

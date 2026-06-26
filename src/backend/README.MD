@@ -430,3 +430,220 @@ curl -X POST http://localhost:5000/suscripciones \
     "detalle": "..."
 }
 ```
+
+---
+
+## GET `/suscripciones/estudiante/{id}` — Ver suscripción del estudiante
+
+Retorna la suscripción registrada del estudiante, incluyendo estado y detalle de la tarifa.
+
+| Campo      | Valor                              |
+|------------|------------------------------------|
+| **Método** | `GET`                              |
+| **URL**    | `/suscripciones/estudiante/{id}`   |
+| **Auth**   | No requerida                       |
+
+## Parámetros de ruta
+
+| Parámetro | Tipo | Descripción       |
+|-----------|------|-------------------|
+| `id`      | int  | ID del estudiante |
+
+## Ejemplo de uso
+
+```bash
+curl -X GET http://localhost:5000/suscripciones/estudiante/1
+```
+
+## Respuestas
+
+### `200 OK` — Suscripción encontrada
+
+```json
+{
+    "idSuscripcion": 1,
+    "fechaCompra": "2026-06-25",
+    "fechaCaducidad": "2026-09-25",
+    "idEstadoSuscripcion": 1,
+    "estado": "Activa",
+    "idTarifa": 2,
+    "tipoTarifa": "Trimestral",
+    "precio": 130.00,
+    "idPersona": 1
+}
+```
+
+### `404 Not Found` — Estudiante no existe
+
+```json
+{
+    "error": "Estudiante no encontrado."
+}
+```
+
+### `404 Not Found` — Sin suscripción registrada
+
+```json
+{
+    "error": "El estudiante no tiene una suscripción registrada."
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
+
+---
+
+## PUT `/suscripciones/{id}/cancelar` — Cancelar suscripción
+
+Cambia el estado de la suscripción a `"Cancelada"`. No elimina el registro ni corta el acceso de inmediato — el estudiante mantiene acceso al contenido hasta que se cumpla la `fechaCaducidad`.
+
+| Campo      | Valor                              |
+|------------|------------------------------------|
+| **Método** | `PUT`                              |
+| **URL**    | `/suscripciones/{id}/cancelar`     |
+| **Body**   | No requerido                       |
+| **Auth**   | No requerida                       |
+
+## Parámetros de ruta
+
+| Parámetro | Tipo | Descripción          |
+|-----------|------|----------------------|
+| `id`      | int  | ID de la suscripción |
+
+## Ejemplo de uso
+
+```bash
+curl -X PUT http://localhost:5000/suscripciones/1/cancelar
+```
+
+## Respuestas
+
+### `200 OK` — Suscripción cancelada
+
+```json
+{
+    "mensaje": "Suscripción cancelada. El acceso se mantiene hasta la fecha de caducidad.",
+    "idSuscripcion": 1,
+    "fechaCaducidad": "2026-09-25",
+    "estado": "Cancelada"
+}
+```
+
+### `400 Bad Request` — Ya estaba cancelada
+
+```json
+{
+    "error": "La suscripción ya se encuentra cancelada."
+}
+```
+
+### `404 Not Found` — Suscripción no existe
+
+```json
+{
+    "error": "Suscripción no encontrada."
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
+
+---
+
+## PUT `/suscripciones/{id}/renovar` — Renovar suscripción
+
+Suma los meses de la tarifa a la `fechaCaducidad` actual. Si se envía un `idTarifa` distinto, cambia el plan antes de renovar. Si la suscripción estaba cancelada, se reactiva automáticamente.
+
+| Campo      | Valor                              |
+|------------|------------------------------------|
+| **Método** | `PUT`                              |
+| **URL**    | `/suscripciones/{id}/renovar`      |
+| **Body**   | `application/json` (opcional)      |
+| **Auth**   | No requerida                       |
+
+## Parámetros de ruta
+
+| Parámetro | Tipo | Descripción          |
+|-----------|------|----------------------|
+| `id`      | int  | ID de la suscripción |
+
+## Campos del body
+
+| Campo      | Tipo | Requerido | Descripción                                  |
+|------------|------|-----------|----------------------------------------------|
+| `idTarifa` | int  | ❌        | Nuevo plan a aplicar. Si se omite, usa el actual. |
+
+## Ejemplos de uso
+
+```bash
+# Renovar con el mismo plan
+curl -X PUT http://localhost:5000/suscripciones/1/renovar \
+  -H "Content-Type: application/json" \
+  -d '{}'
+
+# Renovar cambiando a plan anual
+curl -X PUT http://localhost:5000/suscripciones/1/renovar \
+  -H "Content-Type: application/json" \
+  -d '{ "idTarifa": 3 }'
+```
+
+## Comportamiento según caso
+
+| Caso | Resultado |
+|------|-----------|
+| Renovar con mismo plan | Suma meses de la tarifa actual a `fechaCaducidad` |
+| Renovar con plan distinto | Cambia `idTarifa` y suma meses del nuevo plan |
+| Renovar una cancelada | Reactiva a `"Activa"` y suma meses |
+
+## Respuestas
+
+### `200 OK` — Suscripción renovada
+
+```json
+{
+    "mensaje": "Suscripción renovada exitosamente.",
+    "idSuscripcion": 1,
+    "fechaCaducidad": "2026-10-25",
+    "tipoTarifa": "Mensual",
+    "precio": 50.00,
+    "estado": "Activa"
+}
+```
+
+### `400 Bad Request` — Tarifa no existe
+
+```json
+{
+    "error": "La tarifa seleccionada no existe."
+}
+```
+
+### `404 Not Found` — Suscripción no existe
+
+```json
+{
+    "error": "Suscripción no encontrada."
+}
+```
+
+### `500 Internal Server Error`
+
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```

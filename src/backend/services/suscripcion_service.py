@@ -107,3 +107,87 @@ class SuscripcionService:
             raise LookupError("El estudiante no tiene una suscripción registrada.")
  
         return suscripcion.to_dict()
+    
+
+    # ------------------------------------------------------------------
+    # Cancelar suscripción
+    # ------------------------------------------------------------------
+    @staticmethod
+    def cancelar(id_suscripcion: int) -> dict:
+        suscripcion = SuscripcionRepository.obtener_por_id(id_suscripcion)
+        if not suscripcion:
+            raise LookupError("Suscripción no encontrada.")
+ 
+        # Verificar que no esté ya cancelada
+        if suscripcion.estado.tipoEstadoSolicitud == "cancelada":
+            raise ValueError("La suscripción ya se encuentra cancelada.")
+ 
+        # Cambiar estado a 'cancelada'
+        estado_cancelada = EstadoSuscripcionRepository.obtener_por_tipo("cancelada")
+        if not estado_cancelada:
+            raise ValueError("El estado 'cancelada' no existe en la base de datos.")
+ 
+        suscripcion.idEstadoSuscripcion = estado_cancelada.idEstadoSuscripcion
+        db.session.commit()
+ 
+        return {
+            "mensaje":        "Suscripción cancelada. El acceso se mantiene hasta la fecha de caducidad.",
+            "idSuscripcion":  suscripcion.idSuscripcion,
+            "fechaCaducidad": str(suscripcion.fechaCaducidad),
+            "estado":         estado_cancelada.tipoEstadoSolicitud,
+        }
+ 
+    # ------------------------------------------------------------------
+    # Renovar suscripción
+    # ------------------------------------------------------------------
+    @staticmethod
+    def renovar(id_suscripcion: int, datos: dict) -> dict:
+        """
+        Renueva la suscripción existente sumando meses a la fechaCaducidad.
+        Si se envía idTarifa distinto, también cambia el plan.
+ 
+        Campos opcionales en `datos`:
+            idTarifa  int  opcional  (si se quiere cambiar de plan)
+        """
+        suscripcion = SuscripcionRepository.obtener_por_id(id_suscripcion)
+        if not suscripcion:
+            raise LookupError("Suscripción no encontrada.")
+ 
+        # 1. Determinar tarifa a usar (la nueva si viene, si no la actual)
+        id_tarifa_nueva = datos.get("idTarifa")
+ 
+        # Validar: si está activa, solo permitir si cambia de tarifa
+        estado_actual = suscripcion.estado.tipoEstadoSolicitud.lower()
+        if estado_actual == "activa":
+            if not id_tarifa_nueva or int(id_tarifa_nueva) == suscripcion.idTarifa:
+                raise ValueError("La suscripcion esta activa. Para renovar debes seleccionar un plan diferente al actual.")
+ 
+        if id_tarifa_nueva:
+            tarifa = TarifaRepository.obtener_por_id(int(id_tarifa_nueva))
+            if not tarifa:
+                raise ValueError("La tarifa seleccionada no existe.")
+            suscripcion.idTarifa = tarifa.idTarifa
+        else:
+            tarifa = suscripcion.tarifa
+ 
+        # 2. Sumar meses a la fechaCaducidad actual
+        meses = DURACION_TARIFA.get(tarifa.tipoTarifa.lower(), 1)
+        suscripcion.fechaCaducidad = suscripcion.fechaCaducidad + relativedelta(months=meses)
+ 
+        # 3. Si estaba cancelada, reactivarla
+        if suscripcion.estado.tipoEstadoSolicitud.lower() == "cancelada":
+            estado_activa = EstadoSuscripcionRepository.obtener_por_tipo("activa")
+            if not estado_activa:
+                raise ValueError("El estado 'activa' no existe en la base de datos.")
+            suscripcion.idEstadoSuscripcion = estado_activa.idEstadoSuscripcion
+ 
+        db.session.commit()
+ 
+        return {
+            "mensaje":        "Suscripción renovada exitosamente.",
+            "idSuscripcion":  suscripcion.idSuscripcion,
+            "fechaCaducidad": str(suscripcion.fechaCaducidad),
+            "tipoTarifa":     tarifa.tipoTarifa,
+            "precio":         float(tarifa.precio),
+            "estado":         suscripcion.estado.tipoEstadoSolicitud,
+        }

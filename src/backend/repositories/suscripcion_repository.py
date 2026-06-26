@@ -13,3 +13,7 @@ class SuscripcionRepository:
         db.session.add(suscripcion)
         db.session.flush()
         return suscripcion
+    
+    @staticmethod
+    def obtener_por_id(id_suscripcion: int):
+        return Suscripcion.query.get(id_suscripcion)

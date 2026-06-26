@@ -5,5 +5,8 @@ class EstadoSuscripcionRepository:
 
     @staticmethod
     def obtener_por_tipo(tipo: str):
-        """Busca un estado por nombre (ej. 'activa', 'cancelada')."""
-        return EstadoSuscripcion.query.filter_by(tipoEstadoSolicitud=tipo).first()
+        """Busca un estado por nombre, sin importar mayúsculas/minúsculas."""
+        from sqlalchemy import func
+        return EstadoSuscripcion.query.filter(
+            func.lower(EstadoSuscripcion.tipoEstadoSolicitud) == tipo.lower()
+        ).first()
