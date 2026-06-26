@@ -14,8 +14,8 @@ const StudentMyCoursesView = () => {
 
   // Obtener idPersona desde localStorage
   const idPersona = localStorage.getItem("userId");
-  console.log("Este es el id: ")
-  console.log(idPersona)
+  //console.log("Este es el id: ")
+  //console.log(idPersona)
 
   //Prueba par acolocar una persona logeada
   //idPersona = 4;
