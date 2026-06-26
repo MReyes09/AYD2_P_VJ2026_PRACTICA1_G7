@@ -1,49 +1,94 @@
 // src/components/auth/RegisterForm.jsx
 import React, { useState } from "react";
-import "../../styles/Auth/Register.css";
+import "../../styles/auth/Register.css";
+import { registrarEstudiante } from "../../controllers/auth/authcController";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
-    rol: "estudiante",
     nombreCompleto: "",
     fechaNacimiento: "",
-    correo: "",
+    mail: "",
     contrasenia: "",
     nit: "",
-    fotografia: "",
     numeroTarjeta: "",
-    fechaVencimiento: "",
+    fechaVencimiento: "", // YYYY-MM desde el input type="month"
   });
 
-const [fotoArchivo, setFotoArchivo] = useState(null);
-const [fotoPreview, setFotoPreview] = useState(null);
+  const [fotoArchivo, setFotoArchivo] = useState(null);
+  const [fotoPreview, setFotoPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
 
-const handleFileChange = (e) => {
-  const file = e.target.files?.[0];
-  if (!file) {
-    setFotoArchivo(null);
-    setFotoPreview(null);
-    return;
-  }
-  setFotoArchivo(file);
-  setFotoPreview(URL.createObjectURL(file)); // solo para ver la foto en pantalla
-};
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setFotoArchivo(null);
+      setFotoPreview(null);
+      return;
+    }
+    setFotoArchivo(file);
+    setFotoPreview(URL.createObjectURL(file));
+  };
 
-const handleChange = (e) => {
-const { name, value } = e.target;
-    ((prev) => ({ ...prev, [name]: value }));
-};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg("");
+    setSuccessMsg("");
+    setLoading(true);
 
-    const payload = {
-        ...form,
-        // no mandas la foto en JSON si vas a usar FormData, pero puedes loguearla
-    };
+    try {
+      const data = new FormData();
 
-    console.log("Registro mock:", payload, fotoArchivo);
-    // luego usarías FormData para enviar archivo + datos
+      data.append("nombreCompleto", form.nombreCompleto);
+      data.append("mail", form.mail);
+      data.append("contrasenia", form.contrasenia);
+
+      if (form.fechaNacimiento) {
+        data.append("fechaNacimiento", form.fechaNacimiento); // YYYY-MM-DD
+      }
+      if (form.nit) {
+        data.append("nit", form.nit);
+      }
+
+      data.append("numeroTarjeta", form.numeroTarjeta);
+
+      // Convertir YYYY-MM a YYYY-MM-01 para el backend
+      if (form.fechaVencimiento) {
+        const vencimientoFull = `${form.fechaVencimiento}-01`;
+        data.append("fechaVencimiento", vencimientoFull);
+      }
+
+      if (fotoArchivo) {
+        data.append("fotografia", fotoArchivo);
+      }
+      console.log(form)
+      const result = await registrarEstudiante(data);
+      console.log("Registro OK:", result);
+      setSuccessMsg("Registro realizado con éxito.");
+
+      // Redirigir a /student luego del registro exitoso
+      navigate("/student");
+    } catch (err) {
+      console.error("Error al registrar:", err);
+      const msg =
+        err?.response?.data?.error ||
+        "Ocurrió un error al registrar. Intenta de nuevo.";
+      setErrorMsg(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,21 +98,8 @@ const { name, value } = e.target;
         Completa tus datos para configurar tu perfil inicial y método de pago.
       </p>
 
-      {/* Tipo de usuario */}
-      <div className="register-row register-row--inline">
-        <label>
-          Tipo de usuario
-          <select
-            name="rol"
-            value={form.rol}
-            onChange={handleChange}
-            required
-          >
-            <option value="estudiante">Estudiante</option>
-            <option value="instructor">Instructor</option>
-          </select>
-        </label>
-      </div>
+      {errorMsg && <p className="register-error">{errorMsg}</p>}
+      {successMsg && <p className="register-success">{successMsg}</p>}
 
       {/* Datos personales */}
       <div className="register-row">
@@ -107,20 +139,20 @@ const { name, value } = e.target;
 
       <div className="register-row register-row--inline">
         <label>
-            Fotografía (opcional)
-            <input
+          Fotografía (opcional)
+          <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            />
+          />
         </label>
 
         {fotoPreview && (
-            <div className="register-photo-preview">
+          <div className="register-photo-preview">
             <img src={fotoPreview} alt="Vista previa" />
-            </div>
+          </div>
         )}
-    </div>
+      </div>
 
       {/* Credenciales */}
       <div className="register-row">
@@ -128,8 +160,8 @@ const { name, value } = e.target;
           Correo electrónico
           <input
             type="email"
-            name="correo"
-            value={form.correo}
+            name="mail"
+            value={form.mail}
             onChange={handleChange}
             placeholder="tu@correo.com"
             required
@@ -178,8 +210,8 @@ const { name, value } = e.target;
       </div>
 
       <div className="register-footer">
-        <button type="submit" className="btn-primary">
-          Registrarme
+        <button type="submit" className="btn-primary" disabled={loading}>
+          {loading ? "Registrando..." : "Registrarme"}
         </button>
         <p className="register-helper">
           Podrás actualizar tus datos personales y métodos de pago desde tu
