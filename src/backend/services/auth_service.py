@@ -16,13 +16,12 @@ class AuthService:
 
         # buscar por email
         persona = AuthRepository.get_persona_by_mail(mail)
+
         if not persona:
             raise UsuarioNoEncontradoError("Usuario no encontrado")
 
-        
-        if not bcrypt.checkpw(password.encode("utf-8"), persona.user_password.encode("utf-8")):
+        if persona.user_password != password:
             raise CredencialesInvalidasError("Credenciales invalidas")
-
         
         return {
             "idPersona": persona.idPersona,
