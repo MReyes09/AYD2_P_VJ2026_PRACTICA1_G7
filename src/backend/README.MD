@@ -647,3 +647,519 @@ curl -X PUT http://localhost:5000/suscripciones/1/renovar \
     "detalle": "..."
 }
 ```
+# MODULO CURSOS ADMIN
+
+## Endpoints — Gestión de Dificultades
+
+Base URL: `http://localhost:5000`
+
+---
+
+## GET `/dificultades` — Listar dificultades
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/dificultades` |
+
+```bash
+curl -X GET http://localhost:5000/dificultades
+```
+
+### `200 OK`
+```json
+[
+    { "idDificultad": 1, "tipoDificultad": "Principiante" },
+    { "idDificultad": 2, "tipoDificultad": "Intermedio" },
+    { "idDificultad": 3, "tipoDificultad": "Avanzado" }
+]
+```
+
+---
+
+## POST `/dificultades` — Crear dificultad
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/dificultades` |
+| **Body** | `application/json` |
+
+| Campo | Tipo | Requerido |
+|-------|------|-----------|
+| `tipoDificultad` | string | SI |
+
+```bash
+curl -X POST http://localhost:5000/dificultades \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoDificultad": "Principiante" }'
+```
+
+### `201 Created`
+```json
+{
+    "mensaje": "Dificultad creada exitosamente.",
+    "idDificultad": 1,
+    "tipoDificultad": "Principiante"
+}
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe una dificultad con el nombre 'Principiante'." }
+```
+
+---
+
+## PUT `/dificultades/{id}` — Actualizar dificultad
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/dificultades/{id}` |
+| **Body** | `application/json` |
+
+```bash
+curl -X PUT http://localhost:5000/dificultades/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoDificultad": "Básico" }'
+```
+
+### `200 OK`
+```json
+{
+    "mensaje": "Dificultad actualizada exitosamente.",
+    "idDificultad": 1,
+    "tipoDificultad": "Básico"
+}
+```
+
+### `404 Not Found`
+```json
+{ "error": "Dificultad no encontrada." }
+```
+
+---
+
+## DELETE `/dificultades/{id}` — Eliminar dificultad
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/dificultades/{id}` |
+
+```bash
+curl -X DELETE http://localhost:5000/dificultades/1
+```
+
+### `200 OK`
+```json
+{ "mensaje": "Dificultad eliminada exitosamente." }
+```
+
+### `400 Bad Request` — En uso por un curso
+```json
+{ "error": "No se puede eliminar la dificultad porque hay cursos que la están usando." }
+```
+
+### `404 Not Found`
+```json
+{ "error": "Dificultad no encontrada." }
+```
+
+## Endpoints — Gestión de Temáticas
+
+Base URL: `http://localhost:5000`
+
+---
+
+## GET `/tematicas` — Listar temáticas
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/tematicas` |
+
+```bash
+curl -X GET http://localhost:5000/tematicas
+```
+
+### `200 OK`
+```json
+[
+    { "idTematica": 1, "tipoTematica": "Programación" },
+    { "idTematica": 2, "tipoTematica": "Diseño" },
+    { "idTematica": 3, "tipoTematica": "Negocios" }
+]
+```
+
+---
+
+## POST `/tematicas` — Crear temática
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/tematicas` |
+| **Body** | `application/json` |
+
+| Campo | Tipo | Requerido |
+|-------|------|-----------|
+| `tipoTematica` | string | ✅ |
+
+```bash
+curl -X POST http://localhost:5000/tematicas \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoTematica": "Programación" }'
+```
+
+### `201 Created`
+```json
+{
+    "mensaje": "Temática creada exitosamente.",
+    "idTematica": 1,
+    "tipoTematica": "Programación"
+}
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe una temática con el nombre 'Programación'." }
+```
+
+---
+
+## PUT `/tematicas/{id}` — Actualizar temática
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/tematicas/{id}` |
+| **Body** | `application/json` |
+
+```bash
+curl -X PUT http://localhost:5000/tematicas/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoTematica": "Diseño Gráfico" }'
+```
+
+### `200 OK`
+```json
+{
+    "mensaje": "Temática actualizada exitosamente.",
+    "idTematica": 1,
+    "tipoTematica": "Diseño Gráfico"
+}
+```
+
+### `404 Not Found`
+```json
+{ "error": "Temática no encontrada." }
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe una temática con el nombre 'Diseño Gráfico'." }
+```
+
+---
+
+## DELETE `/tematicas/{id}` — Eliminar temática
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/tematicas/{id}` |
+
+```bash
+curl -X DELETE http://localhost:5000/tematicas/1
+```
+
+### `200 OK`
+```json
+{ "mensaje": "Temática eliminada exitosamente." }
+```
+
+### `400 Bad Request` — En uso por un curso
+```json
+{ "error": "No se puede eliminar la temática porque hay cursos que la están usando." }
+```
+
+### `404 Not Found`
+```json
+{ "error": "Temática no encontrada." }
+```
+
+
+---
+
+# Endpoints — Gestión de Tipos de Contenido
+
+Base URL: `http://localhost:5000`
+
+---
+
+## GET `/tipos-contenido` — Listar tipos de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/tipos-contenido` |
+
+```bash
+curl -X GET http://localhost:5000/tipos-contenido
+```
+
+### `200 OK`
+```json
+[
+    { "idTipoContenido": 1, "tipoContenido": "Clase grabada" },
+    { "idTipoContenido": 2, "tipoContenido": "Taller en vivo" },
+    { "idTipoContenido": 3, "tipoContenido": "Conferencia" }
+]
+```
+
+---
+
+## POST `/tipos-contenido` — Crear tipo de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/tipos-contenido` |
+| **Body** | `application/json` |
+
+| Campo | Tipo | Requerido |
+|-------|------|-----------|
+| `tipoContenido` | string | si |
+
+```bash
+curl -X POST http://localhost:5000/tipos-contenido \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoContenido": "Clase grabada" }'
+```
+
+### `201 Created`
+```json
+{
+    "mensaje": "Tipo de contenido creado exitosamente.",
+    "idTipoContenido": 1,
+    "tipoContenido": "Clase grabada"
+}
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe un tipo de contenido con el nombre 'Clase grabada'." }
+```
+
+---
+
+## PUT `/tipos-contenido/{id}` — Actualizar tipo de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/tipos-contenido/{id}` |
+| **Body** | `application/json` |
+
+```bash
+curl -X PUT http://localhost:5000/tipos-contenido/1 \
+  -H "Content-Type: application/json" \
+  -d '{ "tipoContenido": "Taller en vivo" }'
+```
+
+### `200 OK`
+```json
+{
+    "mensaje": "Tipo de contenido actualizado exitosamente.",
+    "idTipoContenido": 1,
+    "tipoContenido": "Taller en vivo"
+}
+```
+
+### `404 Not Found`
+```json
+{ "error": "Tipo de contenido no encontrado." }
+```
+
+### `400 Bad Request` — Nombre duplicado
+```json
+{ "error": "Ya existe un tipo de contenido con el nombre 'Taller en vivo'." }
+```
+
+---
+
+## DELETE `/tipos-contenido/{id}` — Eliminar tipo de contenido
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/tipos-contenido/{id}` |
+
+```bash
+curl -X DELETE http://localhost:5000/tipos-contenido/1
+```
+
+### `200 OK`
+```json
+{ "mensaje": "Tipo de contenido eliminado exitosamente." }
+```
+
+### `400 Bad Request` — En uso por un contenido
+```json
+{ "error": "No se puede eliminar el tipo de contenido porque hay contenidos que lo están usando." }
+```
+
+### `404 Not Found`
+```json
+{ "error": "Tipo de contenido no encontrado." }
+```
+
+
+---
+
+
+## Endpoints — Gestión de Cursos y Contenido (Administrador)
+
+Base URL: `http://localhost:5000`
+
+---
+
+## POST `/admin/cursos` — Crear curso
+
+Registra un nuevo curso en la plataforma.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/admin/cursos` |
+| **Body** | `application/json` |
+
+### Campos del body
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `nombreCurso` | string | SI | Nombre del curso |
+| `descripcion` | string | SI | Descripción completa |
+| `anioProduccion` | int | SI | Año de producción |
+| `idDificultad` | int | SI | ID de la dificultad |
+| `idPersona` | int | SI | ID del instructor |
+| `idTematica` | int | SI | ID de la temática |
+| `resumen` | string | NO | Resumen breve |
+
+### Ejemplo de uso
+
+```bash
+curl -X POST http://localhost:5000/admin/cursos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombreCurso": "Python desde cero",
+    "descripcion": "Aprende Python con ejemplos prácticos",
+    "resumen": "Curso introductorio",
+    "anioProduccion": 2026,
+    "idDificultad": 1,
+    "idPersona": 1,
+    "idTematica": 1
+  }'
+```
+
+### Respuestas
+
+#### `201 Created` — Curso creado
+```json
+{
+    "mensaje": "Curso creado exitosamente.",
+    "idCurso": 1,
+    "nombreCurso": "Python desde cero",
+    "descripcion": "Aprende Python con ejemplos prácticos",
+    "resumen": "Curso introductorio",
+    "anioProduccion": 2026,
+    "idDificultad": 1,
+    "idPersona": 1,
+    "idTematica": 1
+}
+```
+
+#### `400 Bad Request` — Campos faltantes
+```json
+{ "error": "Campos requeridos faltantes: nombreCurso, idTematica" }
+```
+
+#### `400 Bad Request` — FK no existe
+```json
+{ "error": "La dificultad seleccionada no existe." }
+```
+
+---
+
+## POST `/admin/cursos/{id}/contenido` — Agregar contenido a un curso
+
+Agrega un video o archivo a un curso existente. Se puede llamar múltiples veces para agregar más contenido al mismo curso.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/admin/cursos/{id}/contenido` |
+| **Body** | `application/json` |
+
+### Parámetros de ruta
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| `id` | int | ID del curso |
+
+### Campos del body
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `titulo` | string | SI | Título del contenido |
+| `pathContenido` | string | SI | URL del video o archivo |
+| `descripcion` | string | SI | Descripción del contenido |
+| `idTipoContenido` | int | SI | ID del tipo de contenido |
+
+### Ejemplo de uso
+
+```bash
+curl -X POST http://localhost:5000/admin/cursos/1/contenido \
+  -H "Content-Type: application/json" \
+  -d '{
+    "titulo": "Introducción a Python",
+    "pathContenido": "https://www.youtube.com/watch?v=ejemplo",
+    "descripcion": "Primera clase del curso",
+    "idTipoContenido": 1
+  }'
+```
+
+### Respuestas
+
+#### `201 Created` — Contenido agregado
+```json
+{
+    "mensaje": "Contenido agregado exitosamente.",
+    "idContenido": 1,
+    "titulo": "Introducción a Python",
+    "pathContenido": "https://www.youtube.com/watch?v=ejemplo",
+    "descripcion": "Primera clase del curso",
+    "idCurso": 1,
+    "idTipoContenido": 1
+}
+```
+
+#### `404 Not Found` — Curso no existe
+```json
+{ "error": "Curso no encontrado." }
+```
+
+#### `400 Bad Request` — Campos faltantes
+```json
+{ "error": "Campos requeridos faltantes: titulo, pathContenido" }
+```
+
+#### `500 Internal Server Error`
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```

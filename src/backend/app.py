@@ -16,7 +16,10 @@ from controllers.curso_controller import curso_bp
 from controllers.mis_cursos_controller import mis_cursos_bp
 from controllers.auth_controller import auth_bp
 from controllers.suscripcion_controller import suscripcion_bp
-from controllers.estudiante_curso_controller import estudiante_curso_bp
+from controllers.dificultad_controller import dificultad_bp
+from controllers.tematica_controller import tematica_bp
+from controllers.tipo_contenido_controller import tipo_contenido_bp
+from controllers.curso_admin_controller import curso_admin_bp
 # from controllers.persona_controller import persona_bp
 
 
@@ -37,7 +40,11 @@ def create_app() -> Flask:
     app.register_blueprint(mis_cursos_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(suscripcion_bp)
-    app.register_blueprint(estudiante_curso_bp)
+    app.register_blueprint(dificultad_bp)
+    app.register_blueprint(tematica_bp)
+    app.register_blueprint(tipo_contenido_bp)
+    app.register_blueprint(curso_admin_bp)
+    # app.register_blueprint(persona_bp)
 
     # Endpoint para servir fotografías
     @app.route("/uploads/<path:filename>")
