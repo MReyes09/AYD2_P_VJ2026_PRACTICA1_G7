@@ -7,6 +7,7 @@ from repositories.persona_repositories import PersonaRepository
 from repositories.tarifa_repository import TarifaRepository
 from repositories.suscripcion_repository import SuscripcionRepository
 from repositories.estado_suscripcion_repository import EstadoSuscripcionRepository
+from repositories.tarjeta_repositories import TarjetaRepository
 
 # Meses que agrega cada tipo de tarifa
 DURACION_TARIFA = {
@@ -52,28 +53,33 @@ class SuscripcionService:
         persona = PersonaRepository.obtener_por_id(id_persona)
         if not persona:
             raise LookupError("Estudiante no encontrado.")
+        
+        # 3. Verificar que tenga una tarjeta asociada
+        tarjeta = TarjetaRepository.obtener_por_persona(id_persona)
+        if not tarjeta:
+            raise LookupError("No se puede adquirir una suscripcion si no tiene una tarjeta registrada")
 
-        # 3. Verificar que no tenga ya una suscripción activa
+        # 4. Verificar que no tenga ya una suscripción activa
         suscripcion_existente = SuscripcionRepository.obtener_por_persona(id_persona)
         if suscripcion_existente:
             raise ValueError("El estudiante ya cuenta con una suscripción registrada.")
 
-        # 4. Verificar que la tarifa existe
+        # 5. Verificar que la tarifa existe
         tarifa = TarifaRepository.obtener_por_id(id_tarifa)
         if not tarifa:
             raise ValueError("La tarifa seleccionada no existe.")
 
-        # 5. Resolver estado 'activa'
+        # 6. Resolver estado 'activa'
         estado = EstadoSuscripcionRepository.obtener_por_tipo("activa")
         if not estado:
             raise ValueError("El estado 'activa' no existe en la base de datos.")
 
-        # 6. Calcular fechas
+        # 7. Calcular fechas
         fecha_compra    = date.today()
         meses           = DURACION_TARIFA.get(tarifa.tipoTarifa.lower(), 1)
         fecha_caducidad = fecha_compra + relativedelta(months=meses)
 
-        # 7. Crear suscripción
+        # 8. Crear suscripción
         nueva = Suscripcion(
             fechaCompra         = fecha_compra,
             fechaCaducidad      = fecha_caducidad,

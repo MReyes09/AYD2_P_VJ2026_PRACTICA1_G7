@@ -65,13 +65,16 @@ class EstudianteService:
         fecha_nac = None
         if datos.get("fechaNacimiento"):
             fecha_nac = datetime.strptime(datos["fechaNacimiento"], "%Y-%m-%d").date()
+
+        #6. Hashear password
+        hash_pass = _hash_password(datos["contrasenia"])
  
         # 6. Crear Persona
         nueva_persona = Persona(
             nombreCompleto  = datos["nombreCompleto"].strip(),
             fechaNacimiento = fecha_nac,
             mail            = datos["mail"].strip().lower(),
-            contrasenia     = datos["contrasenia"],          # En producción: hashear
+            contrasenia     = hash_pass,          # En producción: hashear
             nit             = int(datos["nit"]) if datos.get("nit") else None,
             fotografia      = ruta_foto,
             idRol           = rol.idRol,
@@ -253,3 +256,15 @@ class EstudianteService:
             "idTarjeta": nueva_tarjeta.idTarjeta,
             "idPersona": id_persona,
         }
+
+
+def _hash_password(password: str) -> str:
+    """
+    Encripta un password en texto plano usando bcrypt.
+    Retorna el hash como string (utf-8) listo para guardar en BD.
+    """
+    if not password:
+        password = ""
+    password_bytes = password.encode("utf-8")
+    hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
+    return hashed.decode("utf-8")

@@ -1,5 +1,6 @@
 // src/components/dashboard-admin/views/AdminAnalyticsView.jsx
 import React from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -15,48 +16,42 @@ import {
 } from "recharts";
 import "../../../styles/DashboardAdmin/views/admin-analytics.css";
 
-const topCategoriasMock = [
-  { nombre: "Programación", reproducciones: 1200 },
-  { nombre: "Diseño", reproducciones: 800 },
-  { nombre: "Negocios", reproducciones: 650 },
-];
-
-const topNivelesMock = [
-  { nombre: "Principiante", cursados: 900 },
-  { nombre: "Intermedio", cursados: 700 },
-  { nombre: "Avanzado", cursados: 300 },
-];
-
-// const topCursosMock = [
-//   "Python para principiantes",
-//   "Fundamentos de Bases de Datos",
-//   "Introducción a Machine Learning",
-// ];
-
-const suscripcionesMock = [
-  { tipo: "Mensual", estudiantes: 130 },
-  { tipo: "Trimestral", estudiantes: 45 },
-  { tipo: "Anual", estudiantes: 60 },
-];
-
-const topCursosMock = [
-  { titulo: "Python para principiantes", reproducciones: 1100 },
-  { titulo: "Fundamentos de Bases de Datos", reproducciones: 980 },
-  { titulo: "Introducción a Machine Learning", reproducciones: 870 },
-  { titulo: "JavaScript Moderno", reproducciones: 760 },
-  { titulo: "Diseño UX/UI desde cero", reproducciones: 690 },
-  { titulo: "React para principiantes", reproducciones: 610 },
-  { titulo: "SQL Avanzado", reproducciones: 540 },
-  { titulo: "Marketing Digital", reproducciones: 470 },
-  { titulo: "Excel para análisis de datos", reproducciones: 400 },
-  { titulo: "Introducción a la Ciberseguridad", reproducciones: 350 },
-];
+import { getAdminAnalytics } from "../../../controllers/admin/adminController";
+import { useToast } from "../../../context/ToastContext";
 
 // Paleta de colores para las gráficas (puedes ajustarla a tus --ea-* tokens)
 const COLORES_NIVELES = ["#4F46E5", "#22C55E", "#F59E0B"];
 const COLORES_SUSCRIPCIONES = ["#0EA5E9", "#A855F7", "#EC4899"];
 
 const AdminAnalyticsView = () => {
+  const { showToast } = useToast();
+
+  const [analytics, setAnalytics] = useState({
+    topCategorias: [],
+    topNiveles: [],
+    topCursos: [],
+    suscripciones: [],
+  });
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const response = await getAdminAnalytics();
+
+        if (response.data.ok) {
+          setAnalytics(response.data.data);
+          showToast("Datos cargados correctamente", "success");
+        } else {
+          showToast("No se pudieron cargar las analíticas", "error");
+        }
+      } catch (err) {
+        console.error("Entró al catch:", err); // ¿llega aquí?
+        showToast("Error de conexión con el servidor", "error");
+      }
+    };
+
+    fetchAnalytics();
+  }, []);
 
   // De más oscuro a más claro, mismo tono base (índigo, como tu #4F46E5)
   const COLORES_CATEGORIAS = ["#4F46E5", "#7C76ED", "#A8A4F4"];
@@ -77,14 +72,14 @@ const AdminAnalyticsView = () => {
         <div className="analytics-card">
           <h2>Top 3 categorías por reproducciones</h2>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={topCategoriasMock} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <BarChart data={analytics.topCategorias} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="nombre" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} />
               <Tooltip cursor={false}
-               />
+              />
               <Bar dataKey="reproducciones" radius={[6, 6, 0, 0]}>
-                {topCategoriasMock.map((entry, index) => (
+                {analytics.topCategorias.map((entry, index) => (
                   <Cell
                     key={entry.nombre}
                     fill={COLORES_CATEGORIAS[index % COLORES_CATEGORIAS.length]}
@@ -101,7 +96,7 @@ const AdminAnalyticsView = () => {
           <ResponsiveContainer width="100%" height={220}>
             <PieChart>
               <Pie
-                data={topNivelesMock}
+                data={analytics.topNiveles}
                 dataKey="cursados"
                 nameKey="nombre"
                 innerRadius={50}
@@ -110,13 +105,13 @@ const AdminAnalyticsView = () => {
                 label={({ nombre, percent }) => `${nombre} ${(percent * 100).toFixed(0)}%`}
                 labelLine={false}
               >
-                {topNivelesMock.map((entry, index) => (
+                {analytics.topNiveles.map((entry, index) => (
                   <Cell key={entry.nombre} fill={COLORES_NIVELES[index % COLORES_NIVELES.length]} />
                 ))}
               </Pie>
-              <Tooltip 
-              cursor={false}
-               
+              <Tooltip
+                cursor={false}
+
               />
             </PieChart>
           </ResponsiveContainer>
@@ -127,7 +122,7 @@ const AdminAnalyticsView = () => {
           <h2>Top 10 cursos más visualizados</h2>
           <ResponsiveContainer width="100%" height={360}>
             <BarChart
-              data={topCursosMock}
+              data={analytics.topCursos}
               layout="vertical"
               margin={{ top: 10, right: 30, left: 10, bottom: 0 }}
             >
@@ -141,7 +136,7 @@ const AdminAnalyticsView = () => {
               />
               <Tooltip cursor={false} />
               <Bar dataKey="reproducciones" radius={[0, 6, 6, 0]}>
-                {topCursosMock.map((entry, index) => (
+                {analytics.topCursos.map((entry, index) => (
                   <Cell key={entry.titulo} fill={COLORES_CURSOS[index % COLORES_CURSOS.length]} />
                 ))}
               </Bar>
@@ -154,7 +149,7 @@ const AdminAnalyticsView = () => {
           <h2>Distribución de estudiantes por suscripción</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart
-              data={suscripcionesMock}
+              data={analytics.suscripciones}
               layout="vertical"
               margin={{ top: 10, right: 20, left: 10, bottom: 0 }}
             >
@@ -163,7 +158,7 @@ const AdminAnalyticsView = () => {
               <YAxis type="category" dataKey="tipo" tick={{ fontSize: 12 }} width={80} />
               <Tooltip cursor={false} />
               <Bar dataKey="estudiantes" radius={[0, 6, 6, 0]}>
-                {suscripcionesMock.map((entry, index) => (
+                {analytics.suscripciones.map((entry, index) => (
                   <Cell key={entry.tipo} fill={COLORES_SUSCRIPCIONES[index % COLORES_SUSCRIPCIONES.length]} />
                 ))}
               </Bar>

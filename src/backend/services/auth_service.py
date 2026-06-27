@@ -20,7 +20,7 @@ class AuthService:
         if not persona:
             raise UsuarioNoEncontradoError("Usuario no encontrado")
 
-        if persona.user_password != password:
+        if not bcrypt.checkpw(password.encode("utf-8"), persona.user_password.encode("utf-8")):
             raise CredencialesInvalidasError("Credenciales invalidas")
         
         return {
