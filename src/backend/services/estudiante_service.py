@@ -109,18 +109,29 @@ class EstudianteService:
     @staticmethod
     def obtener_perfil(id_persona: int) -> dict:
         persona = PersonaRepository.obtener_por_id(id_persona)
- 
+
         if not persona:
             raise LookupError("Estudiante no encontrado.")
- 
-        # Incluir tarjetas asociadas
+
         tarjetas = [t.to_dict() for t in persona.tarjetas]
- 
+
+        # Suscripción (la relación uselist=False ya la trae como objeto único o None)
+        sus = persona.suscripcion
+        suscripcion = None
+        if sus:
+            suscripcion = {
+                "idSuscripcion":        sus.idSuscripcion,
+                "fechaCompra":          str(sus.fechaCompra)     if sus.fechaCompra     else None,
+                "fechaCaducidad":       str(sus.fechaCaducidad)  if sus.fechaCaducidad  else None,
+                "tipoTarifa":           sus.tarifa.tipoTarifa    if sus.tarifa          else None,
+                "tipoEstadoSolicitud":  sus.estado.tipoEstadoSolicitud if sus.estado    else None,
+            }
+
         return {
             **persona.to_dict(),
-            "tarjetas": tarjetas,
+            "tarjetas":    tarjetas,
+            "suscripcion": suscripcion,
         }
-    
 
     # ------------------------------------------------------------------
     # Actualizar datos personales del estudiante

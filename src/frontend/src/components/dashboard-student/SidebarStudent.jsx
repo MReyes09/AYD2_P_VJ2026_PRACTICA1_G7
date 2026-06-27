@@ -1,7 +1,6 @@
 // src/components/dashboard-student/SidebarStudent.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import "../../styles/DashboardStudent/sidebar-student.css";
 import SchoolIcon from "@mui/icons-material/School";
 import HomeIcon from "@mui/icons-material/Home";
@@ -13,31 +12,64 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const SidebarStudent = ({ vistaActiva, setVista }) => {
   const navigate = useNavigate();
 
+  const namePersona = localStorage.getItem("userName") ?? "Estudiante";
+  const iniciales = namePersona
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 3)
+    .map((palabra) => palabra[0].toUpperCase())
+    .join("");
+
+  const [planActual, setPlanActual] = useState(
+    localStorage.getItem("userPlan") ?? "Sin plan"
+    );
+  const [planEstado, setPlanEstado] = useState(
+      localStorage.getItem("userPlanEstado") ?? ""
+    );
+
+
+  // Esto cubre el caso de que el usuario actualice su plan en la vista de perfil
+  useEffect(() => {
+    const actualizarPlan = () => {
+      setPlanActual(localStorage.getItem("userPlan") ?? "Sin plan");
+      setPlanEstado(localStorage.getItem("userPlanEstado") ?? "");
+    };
+
+    actualizarPlan();
+    window.addEventListener("userPlanUpdated", actualizarPlan);
+    return () => window.removeEventListener("userPlanUpdated", actualizarPlan);
+  }, [vistaActiva]);
+
+
+  useEffect(() => {
+    const actualizarPlan = () => {
+      setPlanActual(localStorage.getItem("userPlan") ?? "Sin plan");
+    };
+
+    // Refresca al cambiar de vista
+    actualizarPlan();
+
+    // Refresca cuando el perfil dispara el evento
+    window.addEventListener("userPlanUpdated", actualizarPlan);
+
+    return () => {
+      window.removeEventListener("userPlanUpdated", actualizarPlan);
+    };
+  }, [vistaActiva]);
+
   const handleLogout = () => {
-    // Limpiar cualquier dato de sesión si es necesario
     localStorage.removeItem("userId");
     localStorage.removeItem("userName");
+    localStorage.removeItem("userPlan"); 
+    localStorage.removeItem("user_username");
+    localStorage.removeItem("username");
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("usuario_id");
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user_cognito_id");
+    localStorage.removeItem("userPlanEstado");
     navigate("/");
-  }
-
-// Obtener nombre del localStorage
-const namePersona = localStorage.getItem("userName") ?? "Estudiante";
-
-// Generar iniciales: toma la primera letra de cada palabra, máximo 3
-const iniciales = namePersona
-  .split(" ")
-  .filter(Boolean)
-  .slice(0, 3)
-  .map((palabra) => palabra[0].toUpperCase())
-  .join("");
-
-
-// ── Subscription state (mock) ─────────────────────────────────────────────
-const [suscripcion] = useState({
-  tipo: "Mensual",
-  fechaFin: "",
-  estado: "Activa",
-});
+  };
 
   return (
     <aside className="sidebar-student">
@@ -78,7 +110,7 @@ const [suscripcion] = useState({
             <AccountCircleIcon />
             <span>Perfil y suscripción</span>
           </li>
-          <li onClick={() => handleLogout()}>
+          <li onClick={handleLogout}>
             <LogoutIcon />
             <span>Salir</span>
           </li>
@@ -89,7 +121,9 @@ const [suscripcion] = useState({
         <div className="avatar-student">{iniciales}</div>
         <div className="sidebar-student-user">
           <span className="user-name">{namePersona}</span>
-          <span className="user-plan">{suscripcion.tipo}</span>
+          <span className="user-plan">
+            {planEstado === "Cancelada" ? "Cancelada" : planActual}
+          </span>
         </div>
       </div>
     </aside>

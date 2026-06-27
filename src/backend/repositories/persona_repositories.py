@@ -26,3 +26,4 @@ class PersonaRepository:
             Persona.mail == mail,
             Persona.idPersona != id_persona
         ).first() is not None
+        

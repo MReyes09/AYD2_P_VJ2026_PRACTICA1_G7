@@ -1,10 +1,11 @@
 // src/components/suscripcion/SuscripcionModal.jsx
 import React, { useEffect, useState } from "react";
-import { listarTarifas, adquirirSuscripcion } from "../../controllers/suscripcion/suscripcionController";
 import "../../styles/Suscripcion/suscripcion-modal.css";
 import { useToast } from "../../context/ToastContext";
+import { listarTarifas, adquirirSuscripcion, renovarSuscripcion } from "../../controllers/suscripcion/suscripcionController";
 
-const SuscripcionModal = ({ open, onClose, idPersona, onSuscripcionExitosa }) => {
+
+const SuscripcionModal = ({ open, onClose, idPersona, onSuscripcionExitosa, idSuscripcion }) => {
   const { showToast } = useToast();
   const [tarifas, setTarifas] = useState([]);
   const [selectedTarifa, setSelectedTarifa] = useState(null);
@@ -31,6 +32,7 @@ const SuscripcionModal = ({ open, onClose, idPersona, onSuscripcionExitosa }) =>
 
   if (!open) return null;
 
+
   const handleConfirm = async () => {
     if (!selectedTarifa) {
       showToast("error", "Debes seleccionar un plan de suscripción.");
@@ -38,21 +40,33 @@ const SuscripcionModal = ({ open, onClose, idPersona, onSuscripcionExitosa }) =>
     }
     try {
       setLoading(true);
-      const result = await adquirirSuscripcion(idPersona, selectedTarifa);
-      console.log("Suscripción OK:", result);
-      showToast("success", "Suscripción adquirida exitosamente.");
+
+      console.log("idSuscripcion")
+      console.log(idSuscripcion)
+
+      let result;
+      if (idSuscripcion) {
+        // ✅ Ya tiene suscripción → renovar
+        result = await renovarSuscripcion(idSuscripcion, selectedTarifa);
+        showToast("success", "Suscripción renovada exitosamente.");
+      } else {
+        // ✅ No tiene suscripción → crear nueva
+        result = await adquirirSuscripcion(idPersona, selectedTarifa);
+        showToast("success", "Suscripción adquirida exitosamente.");
+      }
+
       onSuscripcionExitosa(result);
       onClose();
     } catch (err) {
-      console.error("Error al adquirir suscripción:", err);
-      const msg =
-        err?.response?.data?.error ||
-        "No se pudo adquirir la suscripción. Intenta de nuevo.";
+      const msg = err?.response?.data?.error || "No se pudo procesar la suscripción.";
       showToast("error", msg);
     } finally {
       setLoading(false);
     }
   };
+
+
+
 
   return (
     <div className="suscripcion-modal-backdrop">

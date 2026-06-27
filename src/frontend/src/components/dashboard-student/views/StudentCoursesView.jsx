@@ -1,6 +1,7 @@
 // src/components/dashboard-student/views/StudentCoursesView.jsx
 import { useState, useEffect } from "react";
 import "../../../styles/DashboardStudent/views/student-courses.css";
+import { useToast } from "../../../context/ToastContext";
 
 const API = "http://localhost:5000/api";
 
@@ -13,10 +14,9 @@ const StudentCoursesView = () => {
   const [idDificultad, setIdDificultad] = useState("");
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
-
-  // Estado por tarjeta: { [idCurso]: "idle" | "cargando" | "inscrito" | "error" | "ya-inscrito" }
   const [estadoInscripcion, setEstadoInscripcion] = useState({});
 
+  const { showToast } = useToast(); // ✅ reemplaza los alert()
   const idPersona = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -47,11 +47,9 @@ const StudentCoursesView = () => {
 
   const handleInscribirse = (idCurso) => {
     if (!idPersona) {
-      alert("Debes iniciar sesión para inscribirte.");
+      showToast("error", "Debes iniciar sesión para inscribirte.");
       return;
     }
-
-    // Evita doble clic
     if (estadoInscripcion[idCurso] === "cargando") return;
 
     setEstadoInscripcion((prev) => ({ ...prev, [idCurso]: "cargando" }));
@@ -59,37 +57,33 @@ const StudentCoursesView = () => {
     fetch(`${API}/inscripciones`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        idPersona: Number(idPersona),
-        idCurso,
-      }),
+      body: JSON.stringify({ idPersona: Number(idPersona), idCurso }),
     })
       .then((r) => r.json())
       .then((res) => {
         if (res.ok) {
           setEstadoInscripcion((prev) => ({ ...prev, [idCurso]: "inscrito" }));
+          showToast("success", "¡Te has inscrito al curso exitosamente!");
         } else {
-          // 403 = sin suscripción, 409 = ya inscrito
           const estado = res.mensaje?.includes("Ya estás") ? "ya-inscrito" : "error";
           setEstadoInscripcion((prev) => ({ ...prev, [idCurso]: estado }));
-          alert(res.mensaje); // muestra el motivo claro al usuario
+          showToast("error", res.mensaje);
         }
       })
       .catch(() => {
         setEstadoInscripcion((prev) => ({ ...prev, [idCurso]: "error" }));
-        alert("Error de conexión. Intenta de nuevo.");
+        showToast("error", "Error de conexión. Intenta de nuevo.");
       });
   };
 
-  // Texto y estilo del botón según el estado
   const getBtnProps = (idCurso) => {
     const estado = estadoInscripcion[idCurso] ?? "idle";
     const map = {
-      idle:        { texto: "Inscribirme",  disabled: false, clase: "btn-small" },
-      cargando:    { texto: "Procesando…",  disabled: true,  clase: "btn-small btn-cargando" },
-      inscrito:    { texto: "✓ Inscrito",   disabled: true,  clase: "btn-small btn-inscrito" },
-      "ya-inscrito":{ texto: "Ya inscrito", disabled: true,  clase: "btn-small btn-inscrito" },
-      error:       { texto: "Reintentar",   disabled: false, clase: "btn-small btn-error" },
+      idle:          { texto: "Inscribirme", disabled: false, clase: "btn-small" },
+      cargando:      { texto: "Procesando…", disabled: true,  clase: "btn-small btn-cargando" },
+      inscrito:      { texto: "✓ Inscrito",  disabled: true,  clase: "btn-small btn-inscrito" },
+      "ya-inscrito": { texto: "Ya inscrito", disabled: true,  clase: "btn-small btn-inscrito" },
+      error:         { texto: "Reintentar",  disabled: false, clase: "btn-small btn-error" },
     };
     return map[estado];
   };
