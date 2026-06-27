@@ -1015,3 +1015,151 @@ curl -X DELETE http://localhost:5000/tipos-contenido/1
 ```json
 { "error": "Tipo de contenido no encontrado." }
 ```
+
+
+---
+
+
+## Endpoints — Gestión de Cursos y Contenido (Administrador)
+
+Base URL: `http://localhost:5000`
+
+---
+
+## POST `/admin/cursos` — Crear curso
+
+Registra un nuevo curso en la plataforma.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/admin/cursos` |
+| **Body** | `application/json` |
+
+### Campos del body
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `nombreCurso` | string | SI | Nombre del curso |
+| `descripcion` | string | SI | Descripción completa |
+| `anioProduccion` | int | SI | Año de producción |
+| `idDificultad` | int | SI | ID de la dificultad |
+| `idPersona` | int | SI | ID del instructor |
+| `idTematica` | int | SI | ID de la temática |
+| `resumen` | string | NO | Resumen breve |
+
+### Ejemplo de uso
+
+```bash
+curl -X POST http://localhost:5000/admin/cursos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombreCurso": "Python desde cero",
+    "descripcion": "Aprende Python con ejemplos prácticos",
+    "resumen": "Curso introductorio",
+    "anioProduccion": 2026,
+    "idDificultad": 1,
+    "idPersona": 1,
+    "idTematica": 1
+  }'
+```
+
+### Respuestas
+
+#### `201 Created` — Curso creado
+```json
+{
+    "mensaje": "Curso creado exitosamente.",
+    "idCurso": 1,
+    "nombreCurso": "Python desde cero",
+    "descripcion": "Aprende Python con ejemplos prácticos",
+    "resumen": "Curso introductorio",
+    "anioProduccion": 2026,
+    "idDificultad": 1,
+    "idPersona": 1,
+    "idTematica": 1
+}
+```
+
+#### `400 Bad Request` — Campos faltantes
+```json
+{ "error": "Campos requeridos faltantes: nombreCurso, idTematica" }
+```
+
+#### `400 Bad Request` — FK no existe
+```json
+{ "error": "La dificultad seleccionada no existe." }
+```
+
+---
+
+## POST `/admin/cursos/{id}/contenido` — Agregar contenido a un curso
+
+Agrega un video o archivo a un curso existente. Se puede llamar múltiples veces para agregar más contenido al mismo curso.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `POST` |
+| **URL** | `/admin/cursos/{id}/contenido` |
+| **Body** | `application/json` |
+
+### Parámetros de ruta
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| `id` | int | ID del curso |
+
+### Campos del body
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `titulo` | string | SI | Título del contenido |
+| `pathContenido` | string | SI | URL del video o archivo |
+| `descripcion` | string | SI | Descripción del contenido |
+| `idTipoContenido` | int | SI | ID del tipo de contenido |
+
+### Ejemplo de uso
+
+```bash
+curl -X POST http://localhost:5000/admin/cursos/1/contenido \
+  -H "Content-Type: application/json" \
+  -d '{
+    "titulo": "Introducción a Python",
+    "pathContenido": "https://www.youtube.com/watch?v=ejemplo",
+    "descripcion": "Primera clase del curso",
+    "idTipoContenido": 1
+  }'
+```
+
+### Respuestas
+
+#### `201 Created` — Contenido agregado
+```json
+{
+    "mensaje": "Contenido agregado exitosamente.",
+    "idContenido": 1,
+    "titulo": "Introducción a Python",
+    "pathContenido": "https://www.youtube.com/watch?v=ejemplo",
+    "descripcion": "Primera clase del curso",
+    "idCurso": 1,
+    "idTipoContenido": 1
+}
+```
+
+#### `404 Not Found` — Curso no existe
+```json
+{ "error": "Curso no encontrado." }
+```
+
+#### `400 Bad Request` — Campos faltantes
+```json
+{ "error": "Campos requeridos faltantes: titulo, pathContenido" }
+```
+
+#### `500 Internal Server Error`
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```
