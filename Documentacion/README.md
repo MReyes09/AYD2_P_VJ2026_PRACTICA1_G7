@@ -30,8 +30,6 @@ Diagrama de la primera descomposición del negocio de alto nivel.
 
 ![CU4](./imgs/CU4%20-%20Monitoreo%20de%20Metricas.png)
 
-Te dejo todo en formato listo para copiar y pegar en tu DDA. Ajusta la numeración de escenarios según lo que ya tengas.
-
 ***
 
 ## Drivers Funcionales
