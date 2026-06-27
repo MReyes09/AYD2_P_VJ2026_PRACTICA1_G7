@@ -33,6 +33,15 @@ const LoginForm = () => {
       };
       localStorage.setItem("userId", String(resultado.idPersona));
       localStorage.setItem("userName", String(resultado.nombreCompleto));
+      
+      // Consulta el plan al momento del login
+      try {
+        const perfilRes = await fetch(`http://localhost:5000/estudiantes/${resultado.idPersona}`);
+        const perfilData = await perfilRes.json();
+        localStorage.setItem("userPlan", perfilData.suscripcion?.tipoTarifa ?? "Sin plan");
+      } catch {
+        localStorage.setItem("userPlan", "Sin plan");
+      }
 
       // Toast de éxito
       showToast("success", "Inicio de sesión exitoso.");

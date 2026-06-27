@@ -27,4 +27,17 @@ export const login = async (mail, password) => {
   return response.data;
 };
 
+
+// Crear suscripción nueva
+export const adquirirSuscripcion = async (idPersona, idTarifa) => {
+  const response = await api.post("/suscripciones", { idPersona, idTarifa });
+  return response.data;
+};
+
+// Renovar suscripción existente
+export const renovarSuscripcion = async (idSuscripcion, idTarifa) => {
+  const response = await api.put(`/suscripciones/${idSuscripcion}/renovar`, { idTarifa });
+  return response.data;
+};
+
 export default api;
