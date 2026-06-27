@@ -234,3 +234,35 @@ Afecta: Administrador de contenido \| Facilidad de cambio
 | Artefacto                | Modelo de dominio de contenido, módulo de administración y capa de persistencia.                                                                                  |
 | Respuesta                | El nuevo tipo de contenido se agrega sin modificaciones masivas al código y queda disponible para asociarse a nuevos cursos.                                     |
 | Medida de la respuesta   | El cambio se limita a la configuración y a un número reducido de componentes (no más de 3 clases o módulos principales) y se despliega en una única iteración.   |
+
+## Justificación Arquitectónica
+
+### Framework: React
+
+React fue seleccionado como framework principal del frontend debido a las características que lo alinean directamente con los requerimientos funcionales y de calidad de la plataforma PRCCD.
+
+**Componentización y reutilización:** React organiza la interfaz en componentes independientes y reutilizables, lo cual resulta esencial en una plataforma con múltiples roles (candidato, verificador, administrador) que comparten elementos visuales comunes como tablas, modales y formularios. Esto reduce la duplicación de código y facilita el mantenimiento.
+
+**Gestión reactiva del estado:** Mediante hooks como `useState` y `useEffect`, React permite reflejar cambios de estado en la interfaz de forma eficiente y predecible, lo cual es crítico en flujos dinámicos como la evaluación activa, la revisión de evidencias y el seguimiento de certificaciones.
+
+**Ecosistema y compatibilidad:** React cuenta con un ecosistema maduro que incluye herramientas como Vite (bundler), React Router (navegación SPA) y librerías de componentes UI. Su amplia adopción garantiza soporte a largo plazo y disponibilidad de recursos para el equipo de desarrollo.
+
+**Integración con servicios AWS:** React se integra sin fricciones con los servicios de infraestructura utilizados en el proyecto, en particular con S3 y CloudFront para el despliegue de la aplicación estática, y con la API REST del backend Flask mediante llamadas HTTP estándar.
+
+---
+
+### Patrón de Diseño: MVC (Model-View-Controller)
+
+El patrón Modelo-Vista-Controlador fue adoptado para estructurar la comunicación entre el frontend y el backend, estableciendo una separación clara de responsabilidades que favorece la escalabilidad y la mantenibilidad del sistema.
+
+**Modelo (Model):** Representa los datos y la lógica de negocio de la aplicación. En el contexto del proyecto, el modelo está conformado por las entidades gestionadas en el backend: usuarios, sesiones de evaluación, solicitudes de certificado, preguntas y respuestas, entre otras. Estas entidades son definidas mediante SQLAlchemy y se persisten en Aurora MySQL.
+
+**Vista (View):** Corresponde a la capa de presentación, implementada íntegramente en React. Cada componente JSX es responsable únicamente de renderizar información y capturar eventos del usuario, sin contener lógica de negocio. Esto mantiene las vistas ligeras, predecibles y fáciles de probar de forma aislada.
+
+**Controlador (Controller):** Actúa como intermediario entre la vista y el modelo. En la arquitectura del proyecto, los controladores son los endpoints de la API REST desarrollados en Flask, que reciben las solicitudes HTTP del frontend, aplican la lógica de negocio correspondiente e invocan las operaciones necesarias sobre el modelo de datos antes de devolver una respuesta estructurada.
+
+Esta separación permite que el frontend y el backend evolucionen de forma independiente, facilita la escritura de pruebas unitarias por capa y establece contratos claros a través de la API que simplifican la integración entre los distintos módulos del sistema.
+
+### Diagrama UML del MVC
+
+![Modelo-MVC](../Documentacion/imgs/Modelo%20Vista%20Controlador.png)

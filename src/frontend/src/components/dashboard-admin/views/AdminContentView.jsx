@@ -1,4 +1,3 @@
-// src/components/dashboard-teacher/views/TeacherContentView.jsx
 import React, { useState } from "react";
 import "../../../styles/DashboardTeacher/views/teacher-content.css";
 
@@ -7,7 +6,7 @@ const cursosMock = [
   { id: 2, nombre: "SQL básico" },
 ];
 
-const TeacherContentView = () => {
+const AdminContentView = () => {
   const [cursoSeleccionado, setCursoSeleccionado] = useState(cursosMock[0].id);
   const [form, setForm] = useState({
     titulo: "",
@@ -82,4 +81,4 @@ const TeacherContentView = () => {
   );
 };
 
-export default TeacherContentView;
+export default AdminContentView;
