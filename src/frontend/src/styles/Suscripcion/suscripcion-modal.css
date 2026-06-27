@@ -1,0 +1,77 @@
+/* src/styles/suscripcion/suscripcion-modal.css */
+.suscripcion-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suscripcion-modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  color: #1f2933;          /* texto más oscuro */
+}
+
+.suscripcion-modal h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: #111827;          /* todavía más oscuro para el título */
+}
+
+.suscripcion-modal p {
+  color: #374151;          /* gris oscuro para párrafos */
+}
+
+/* Lista de tarifas */
+.suscripcion-tarifas {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.suscripcion-tarifa {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  background-color: #f9fafb;
+}
+
+.suscripcion-tarifa--selected {
+  border-color: #2563eb;
+  background-color: #e5edff;
+}
+
+.suscripcion-tarifa-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.suscripcion-tarifa-tipo {
+  font-weight: 600;
+  color: #111827;          /* fuerte para el nombre del plan */
+}
+
+.suscripcion-tarifa-precio {
+  font-size: 0.9rem;
+  color: #4b5563;          /* gris oscuro para el precio */
+}
+
+.suscripcion-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

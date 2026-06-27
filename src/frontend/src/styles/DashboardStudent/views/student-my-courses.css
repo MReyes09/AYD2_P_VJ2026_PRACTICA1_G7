@@ -92,3 +92,35 @@
   font-size: 0.8rem;
   color: var(--color-text-muted);
 }
+
+
+.video-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.video-titulo {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.video-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 8px;
+}
+
+.video-placeholder {
+  color: var(--text-muted, #888);
+  margin-bottom: 1rem;
+}
+
+.contenido-item.reproduciendo {
+  border-color: #22d3ee;
+}
+
+.badge-reproduciendo {
+  font-size: 0.7rem;
+  color: #22d3ee;
+  margin-left: 0.5rem;
+}

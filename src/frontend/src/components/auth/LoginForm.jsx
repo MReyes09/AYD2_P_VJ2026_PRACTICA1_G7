@@ -3,54 +3,56 @@ import React, { useState } from "react";
 import "../../styles/Auth/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../controllers/auth/authcController";
+import { useToast } from "../../context/ToastContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const [form, setForm] = useState({ mail: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [alert, setAlert] = useState({ type: "", message: "" });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMsg("");
+    setAlert({ type: "", message: "" });
     setLoading(true);
 
     try {
-      // Llamada al backend
       const resultado = await login(form.mail, form.password);
       // resultado: { idPersona, nombreCompleto, mail, idRol }
 
-      // Guardar datos básicos en localStorage
       const userData = {
         idPersona: resultado.idPersona,
         nombreCompleto: resultado.nombreCompleto,
         mail: resultado.mail,
         idRol: resultado.idRol,
       };
-      localStorage.setItem("user", JSON.stringify(userData));
-      // Si solo quieres el id en una key aparte:
       localStorage.setItem("userId", String(resultado.idPersona));
+      localStorage.setItem("userName", String(resultado.nombreCompleto));
 
-      // Redirigir según rol
-      if (resultado.idRol === 1) {
-        // 1 = estudiante (ajusta si tu BD usa otro valor)
-        navigate("/student");
-      } else if (resultado.idRol === 2) {
-        // 2 = admin (ajusta si tu BD usa otro valor)
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+      // Toast de éxito
+      showToast("success", "Inicio de sesión exitoso.");
+
+      // Redirigir según rol después de un pequeño delay opcional
+      setTimeout(() => {
+        if (resultado.idRol === 1) {
+          navigate("/student");
+        } else if (resultado.idRol === 2) {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      }, 800);
     } catch (err) {
       console.error("Error en login:", err);
       const msg =
         err?.response?.data?.error ||
         "No se pudo iniciar sesión. Verifica tus credenciales.";
-      setErrorMsg(msg);
+      showToast("error", msg);
     } finally {
       setLoading(false);
     }
@@ -60,13 +62,11 @@ const LoginForm = () => {
     <form className="auth-form" onSubmit={handleSubmit}>
       <h2>Iniciar sesión</h2>
 
-      {errorMsg && <p className="auth-error">{errorMsg}</p>}
-
       <label>
         Correo electrónico
         <input
           type="email"
-          name="mail" // el backend espera "mail"
+          name="mail"
           placeholder="tu@correo.com"
           value={form.mail}
           onChange={handleChange}

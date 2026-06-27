@@ -14,3 +14,9 @@ class CursoService:
             "tematicas": self.repo.get_tematicas(),
             "dificultades": self.repo.get_dificultades()
         }
+    
+    def get_top10_cursos(self):
+        return self.repo.get_top10_cursos()
+    
+    def get_recomendados(self, id_persona):
+        return self.repo.get_recomendados(id_persona)

@@ -1,5 +1,7 @@
 // src/components/dashboard-student/SidebarStudent.jsx
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import "../../styles/DashboardStudent/sidebar-student.css";
 import SchoolIcon from "@mui/icons-material/School";
 import HomeIcon from "@mui/icons-material/Home";
@@ -9,6 +11,34 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const SidebarStudent = ({ vistaActiva, setVista }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Limpiar cualquier dato de sesión si es necesario
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    navigate("/");
+  }
+
+// Obtener nombre del localStorage
+const namePersona = localStorage.getItem("userName") ?? "Estudiante";
+
+// Generar iniciales: toma la primera letra de cada palabra, máximo 3
+const iniciales = namePersona
+  .split(" ")
+  .filter(Boolean)
+  .slice(0, 3)
+  .map((palabra) => palabra[0].toUpperCase())
+  .join("");
+
+
+// ── Subscription state (mock) ─────────────────────────────────────────────
+const [suscripcion] = useState({
+  tipo: "Mensual",
+  fechaFin: "",
+  estado: "Activa",
+});
+
   return (
     <aside className="sidebar-student">
       <div className="sidebar-student-header">
@@ -48,7 +78,7 @@ const SidebarStudent = ({ vistaActiva, setVista }) => {
             <AccountCircleIcon />
             <span>Perfil y suscripción</span>
           </li>
-          <li onClick={() => console.log("Salir estudiante")}>
+          <li onClick={() => handleLogout()}>
             <LogoutIcon />
             <span>Salir</span>
           </li>
@@ -56,10 +86,10 @@ const SidebarStudent = ({ vistaActiva, setVista }) => {
       </nav>
 
       <div className="sidebar-student-footer">
-        <div className="avatar-student">STU</div>
+        <div className="avatar-student">{iniciales}</div>
         <div className="sidebar-student-user">
-          <span className="user-name">Juan Pérez</span>
-          <span className="user-plan">Plan Mensual</span>
+          <span className="user-name">{namePersona}</span>
+          <span className="user-plan">{suscripcion.tipo}</span>
         </div>
       </div>
     </aside>
