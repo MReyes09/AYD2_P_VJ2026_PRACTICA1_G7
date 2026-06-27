@@ -1,4 +1,3 @@
-// src/components/dashboard-teacher/views/TeacherCoursesView.jsx
 import React, { useState } from "react";
 import "../../../styles/DashboardTeacher/views/teacher-courses.css";
 
@@ -7,7 +6,7 @@ const cursosMock = [
   { id: 2, nombre: "SQL básico", dificultad: "Principiante", anio: 2023 },
 ];
 
-const TeacherCoursesView = () => {
+const AdminCoursesView = () => {
   const [form, setForm] = useState({
     nombre: "",
     resumen: "",
@@ -115,4 +114,4 @@ const TeacherCoursesView = () => {
   );
 };
 
-export default TeacherCoursesView;
+export default AdminCoursesView;
