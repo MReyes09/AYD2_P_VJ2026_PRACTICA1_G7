@@ -4,21 +4,34 @@ import "../../../styles/DashboardStudent/views/student-my-courses.css";
 
 const API = "http://localhost:5000/api";
 
+// Convierte cualquier URL de YouTube a formato embed
+const getYoutubeEmbedUrl = (url) => {
+  if (!url) return null;
+
+  // Ya es embed
+  if (url.includes("youtube.com/embed/")) return url;
+
+  // Formato: https://youtu.be/VIDEO_ID
+  const shortMatch = url.match(/youtu\.be\/([^?&]+)/);
+  if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+
+  // Formato: https://www.youtube.com/watch?v=VIDEO_ID
+  const longMatch = url.match(/[?&]v=([^?&]+)/);
+  if (longMatch) return `https://www.youtube.com/embed/${longMatch[1]}`;
+
+  return null;
+};
+
 const StudentMyCoursesView = () => {
   const [cursos, setCursos] = useState([]);
   const [cursoActivo, setCursoActivo] = useState(null);
   const [contenidos, setContenidos] = useState([]);
+  const [videoActivo, setVideoActivo] = useState(null); // { idContenido, titulo, embedUrl }
   const [cargandoCursos, setCargandoCursos] = useState(true);
   const [cargandoContenidos, setCargandoContenidos] = useState(false);
   const [error, setError] = useState(null);
 
-  // Obtener idPersona desde localStorage
   const idPersona = localStorage.getItem("userId");
-  //console.log("Este es el id: ")
-  //console.log(idPersona)
-
-  //Prueba par acolocar una persona logeada
-  //idPersona = 4;
 
   // 1. Cargar mis cursos al montar
   useEffect(() => {
@@ -32,7 +45,7 @@ const StudentMyCoursesView = () => {
       .then((r) => r.json())
       .then(({ data }) => {
         setCursos(data);
-        if (data.length > 0) setCursoActivo(data[0]); // selecciona el primero por defecto
+        if (data.length > 0) setCursoActivo(data[0]);
       })
       .catch(() => setError("Error al cargar tus cursos."))
       .finally(() => setCargandoCursos(false));
@@ -42,7 +55,9 @@ const StudentMyCoursesView = () => {
   useEffect(() => {
     if (!cursoActivo) return;
 
+    setVideoActivo(null); // limpia el reproductor al cambiar de curso
     setCargandoContenidos(true);
+
     fetch(`${API}/mis-cursos/${idPersona}/curso/${cursoActivo.idCurso}/contenidos`)
       .then((r) => r.json())
       .then(({ data }) => setContenidos(data))
@@ -50,29 +65,42 @@ const StudentMyCoursesView = () => {
       .finally(() => setCargandoContenidos(false));
   }, [cursoActivo]);
 
-  // 3. Registrar vista al presionar Reproducir
-  const handleReproducir = (idContenido) => {
+  // 3. Reproducir: muestra el video y registra en Bitácora
+  const handleReproducir = (contenido) => {
+    const embedUrl = getYoutubeEmbedUrl(contenido.pathContenido);
+
+    // Muestra el reproductor
+    setVideoActivo({
+      idContenido: contenido.idContenido,
+      titulo: contenido.titulo,
+      embedUrl,
+    });
+
+    // Registra en Bitácora
     fetch(`${API}/mis-cursos/vista`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idPersona: Number(idPersona), idContenido }),
+      body: JSON.stringify({
+        idPersona: Number(idPersona),
+        idContenido: contenido.idContenido,
+      }),
     })
       .then((r) => r.json())
       .then(() => {
-        // Actualiza el estado local: marca el contenido como visto
+        // Marca como visto en la lista
         setContenidos((prev) =>
           prev.map((c) =>
-            c.idContenido === idContenido
+            c.idContenido === contenido.idContenido
               ? { ...c, visto: true, ultimaVista: new Date().toISOString() }
               : c
           )
         );
-        // Recalcula progreso en la lista de cursos
+        // Recalcula progreso
         setCursos((prev) =>
           prev.map((curso) => {
             if (curso.idCurso !== cursoActivo.idCurso) return curso;
             const vistos = contenidos.filter(
-              (c) => c.visto || c.idContenido === idContenido
+              (c) => c.visto || c.idContenido === contenido.idContenido
             ).length;
             const progreso = Math.round((vistos / curso.totalContenidos) * 100);
             return { ...curso, contenidosVistos: vistos, progreso };
@@ -83,7 +111,7 @@ const StudentMyCoursesView = () => {
   };
 
   if (cargandoCursos) return <p className="estado-info">Cargando tus cursos...</p>;
-  if (error)         return <p className="estado-error">{error}</p>;
+  if (error)          return <p className="estado-error">{error}</p>;
   if (cursos.length === 0) return <p className="estado-info">Aún no estás inscrito en ningún curso.</p>;
 
   return (
@@ -106,11 +134,35 @@ const StudentMyCoursesView = () => {
         </ul>
       </div>
 
-      {/* Panel derecho: contenidos del curso activo */}
+      {/* Panel derecho */}
       <div className="my-courses-content">
         <h2>{cursoActivo?.nombreCurso}</h2>
-        <p>Selecciona un contenido para reproducirlo.</p>
 
+        {/* Reproductor YouTube */}
+        {videoActivo ? (
+          <div className="video-wrapper">
+            <h3 className="video-titulo">{videoActivo.titulo}</h3>
+            {videoActivo.embedUrl ? (
+              <iframe
+                src={videoActivo.embedUrl}
+                title={videoActivo.titulo}
+                className="video-player"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              />
+            ) : (
+              <p className="estado-error">
+                URL de video no válida para este contenido.
+              </p>
+            )}
+          </div>
+        ) : (
+          <p className="video-placeholder">
+            Selecciona un contenido para reproducirlo.
+          </p>
+        )}
+
+        {/* Lista de contenidos */}
         {cargandoContenidos ? (
           <p className="estado-info">Cargando contenidos...</p>
         ) : (
@@ -118,17 +170,20 @@ const StudentMyCoursesView = () => {
             {contenidos.map((c) => (
               <article
                 key={c.idContenido}
-                className={`contenido-item ${c.visto ? "visto" : ""}`}
+                className={`contenido-item ${c.visto ? "visto" : ""} ${
+                  videoActivo?.idContenido === c.idContenido ? "reproduciendo" : ""
+                }`}
               >
                 <div>
                   <h3>{c.titulo}</h3>
-                  {c.visto && (
-                    <span className="badge-visto">✓ Visto</span>
+                  {c.visto && <span className="badge-visto">✓ Visto</span>}
+                  {videoActivo?.idContenido === c.idContenido && (
+                    <span className="badge-reproduciendo">▶ Reproduciendo</span>
                   )}
                 </div>
                 <button
                   className="btn-small"
-                  onClick={() => handleReproducir(c.idContenido)}
+                  onClick={() => handleReproducir(c)}
                 >
                   {c.visto ? "Ver de nuevo" : "Reproducir"}
                 </button>

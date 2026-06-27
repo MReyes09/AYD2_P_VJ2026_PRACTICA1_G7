@@ -23,7 +23,7 @@ const StudentHomeView = () => {
     ])
       .then(([perfil, recomendacion, ranking]) => {
         setNombreUsuario(perfil.nombreCompleto?.split(" ")[0] ?? "Estudiante");
-        setRecomendados(recomendacion.data?.cursos ?? []);
+        setRecomendados(ranking.data ?? []);
         setTematicaFavorita(recomendacion.data?.tematicaFavorita ?? null);
         setTop10(ranking.data ?? []);
       })
@@ -62,12 +62,12 @@ const StudentHomeView = () => {
             <p className="estado-info">No hay recomendaciones disponibles.</p>
           ) : (
             <div className="student-cards">
-              {recomendados.slice(0, 4).map((curso) => (
+              {recomendados.slice(0, 3).map((curso) => (
                 <article key={curso.idCurso} className="student-course-card">
                   <h3>{curso.nombreCurso}</h3>
                   <p>{curso.tipoTematica}</p>
                   <span className="badge-level">{curso.tipoDificultad}</span>
-                  <button className="btn-small">Ver curso</button>
+                  {/* <button className="btn-small">Ver curso</button> */}
                 </article>
               ))}
             </div>

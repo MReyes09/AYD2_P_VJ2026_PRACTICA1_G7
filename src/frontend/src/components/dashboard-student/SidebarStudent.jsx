@@ -1,5 +1,5 @@
 // src/components/dashboard-student/SidebarStudent.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import "../../styles/DashboardStudent/sidebar-student.css";
@@ -16,8 +16,28 @@ const SidebarStudent = ({ vistaActiva, setVista }) => {
   const handleLogout = () => {
     // Limpiar cualquier dato de sesión si es necesario
     localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
     navigate("/");
   }
+
+// Obtener nombre del localStorage
+const namePersona = localStorage.getItem("userName") ?? "Estudiante";
+
+// Generar iniciales: toma la primera letra de cada palabra, máximo 3
+const iniciales = namePersona
+  .split(" ")
+  .filter(Boolean)
+  .slice(0, 3)
+  .map((palabra) => palabra[0].toUpperCase())
+  .join("");
+
+
+// ── Subscription state (mock) ─────────────────────────────────────────────
+const [suscripcion] = useState({
+  tipo: "Mensual",
+  fechaFin: "",
+  estado: "Activa",
+});
 
   return (
     <aside className="sidebar-student">
@@ -66,10 +86,10 @@ const SidebarStudent = ({ vistaActiva, setVista }) => {
       </nav>
 
       <div className="sidebar-student-footer">
-        <div className="avatar-student">STU</div>
+        <div className="avatar-student">{iniciales}</div>
         <div className="sidebar-student-user">
-          <span className="user-name">Juan Pérez</span>
-          <span className="user-plan">Plan Mensual</span>
+          <span className="user-name">{namePersona}</span>
+          <span className="user-plan">{suscripcion.tipo}</span>
         </div>
       </div>
     </aside>
