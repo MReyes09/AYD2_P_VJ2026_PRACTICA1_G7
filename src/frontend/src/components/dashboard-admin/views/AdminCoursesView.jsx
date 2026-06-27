@@ -10,7 +10,7 @@ const AdminCoursesView = () => {
     anioProduccion: 2025,
     idDificultad: 1,
     idTematica: 1,
-    idPersona: parseInt(localStorage.getItem("idPersona")) || 1,
+    idPersona: parseInt(localStorage.getItem("userId")) || 1,
   });
 
   useEffect(() => {
@@ -40,7 +40,15 @@ const AdminCoursesView = () => {
       if (!res.ok) throw new Error(data.error);
       alert("Curso creado exitosamente");
       setCursos([...cursos, data]);
-      setForm({ nombreCurso: "", resumen: "", descripcion: "", anioProduccion: 2025, idDificultad: 1, idTematica: 1, idPersona: parseInt(localStorage.getItem("idPersona")) || 1 });
+      setForm({
+        nombreCurso: "",
+        resumen: "",
+        descripcion: "",
+        anioProduccion: 2025,
+        idDificultad: 1,
+        idTematica: 1,
+        idPersona: parseInt(localStorage.getItem("userId")) || 1,
+      });
     } catch (err) {
       alert("Error: " + err.message);
     }
@@ -63,35 +71,46 @@ const AdminCoursesView = () => {
       <div className="teacher-courses-form">
         <h2>Crear nuevo curso</h2>
         <form onSubmit={handleSubmit}>
-          <label>Nombre del curso
+          <label>
+            Nombre del curso
             <input name="nombreCurso" value={form.nombreCurso} onChange={handleChange} required />
           </label>
-          <label>Resumen
+          <label>
+            Resumen
             <input name="resumen" value={form.resumen} onChange={handleChange} />
           </label>
-          <label>Descripción
+          <label>
+            Descripción
             <textarea name="descripcion" value={form.descripcion} onChange={handleChange} required />
           </label>
           <div className="form-row">
-            <label>Año
+            <label>
+              Año
               <input type="number" name="anioProduccion" value={form.anioProduccion} onChange={handleChange} required />
             </label>
-            <label>Dificultad
+            <label>
+              Dificultad
               <select name="idDificultad" value={form.idDificultad} onChange={handleChange}>
                 <option value={1}>Principiante</option>
                 <option value={2}>Intermedio</option>
                 <option value={3}>Avanzado</option>
               </select>
             </label>
-            <label>Temática
+            <label>
+              Temática
               <select name="idTematica" value={form.idTematica} onChange={handleChange}>
                 <option value={1}>Programación</option>
-                <option value={2}>Diseño</option>
-                <option value={3}>Negocios</option>
+                <option value={2}>Bases de Datos</option>
+                <option value={3}>Diseño Web</option>
+                <option value={4}>Inteligencia IA</option>
+                <option value={5}>Redes</option>
+                <option value={6}>Ciberseguridad</option>
               </select>
             </label>
           </div>
-          <button className="btn-primary" type="submit">Guardar curso</button>
+          <button className="btn-primary" type="submit">
+            Guardar curso
+          </button>
         </form>
       </div>
     </section>
