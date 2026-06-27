@@ -8,6 +8,8 @@ import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LogoutIcon from "@mui/icons-material/Logout";
 import StorageIcon from "@mui/icons-material/Storage";
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 
 const SidebarAdmin = ({ vistaActiva, setVista }) => {
   const navigate = useNavigate();
@@ -44,6 +46,20 @@ const SidebarAdmin = ({ vistaActiva, setVista }) => {
           >
             <CategoryIcon />
             <span>Catálogo de cursos</span>
+          </li>
+          <li
+            className={vistaActiva === "cursos" ? "active" : ""}
+            onClick={() => setVista("cursos")}
+          >
+            <LibraryAddIcon />
+            <span>Mis cursos</span>
+          </li>
+          <li
+            className={vistaActiva === "contenido" ? "active" : ""}
+            onClick={() => setVista("contenido")}
+          >
+            <PlaylistPlayIcon />
+            <span>Contenido de curso</span>
           </li>
           <li
             className={vistaActiva === "analiticas" ? "active" : ""}
