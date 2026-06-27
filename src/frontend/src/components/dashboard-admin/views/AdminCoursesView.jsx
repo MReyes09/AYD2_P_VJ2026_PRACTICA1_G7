@@ -1,27 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../../styles/DashboardTeacher/views/teacher-courses.css";
 
-const cursosMock = [
-  { id: 1, nombre: "React desde cero", dificultad: "Intermedio", anio: 2024 },
-  { id: 2, nombre: "SQL básico", dificultad: "Principiante", anio: 2023 },
-];
-
 const AdminCoursesView = () => {
+  const [cursos, setCursos] = useState([]);
   const [form, setForm] = useState({
-    nombre: "",
+    nombreCurso: "",
     resumen: "",
     descripcion: "",
-    anio: 2025,
-    dificultad: "Principiante",
-    tematica: "Programación",
+    anioProduccion: 2025,
+    idDificultad: 1,
+    idTematica: 1,
+    idPersona: parseInt(localStorage.getItem("idPersona")) || 1,
   });
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/cursos")
+      .then((r) => r.json())
+      .then((data) => setCursos(data.data || []));
+  }, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Crear curso mock:", form);
+    try {
+      const res = await fetch("http://localhost:5000/admin/cursos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          anioProduccion: parseInt(form.anioProduccion),
+          idDificultad: parseInt(form.idDificultad),
+          idTematica: parseInt(form.idTematica),
+          idPersona: parseInt(form.idPersona),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      alert("Curso creado exitosamente");
+      setCursos([...cursos, data]);
+      setForm({ nombreCurso: "", resumen: "", descripcion: "", anioProduccion: 2025, idDificultad: 1, idTematica: 1, idPersona: parseInt(localStorage.getItem("idPersona")) || 1 });
+    } catch (err) {
+      alert("Error: " + err.message);
+    }
   };
 
   return (
@@ -29,11 +51,10 @@ const AdminCoursesView = () => {
       <div className="teacher-courses-list">
         <h2>Mis cursos</h2>
         <ul>
-          {cursosMock.map((c) => (
-            <li key={c.id}>
-              <span>{c.nombre}</span>
-              <span className="badge-level">{c.dificultad}</span>
-              <small>{c.anio}</small>
+          {cursos.map((c) => (
+            <li key={c.idCurso}>
+              <span>{c.nombreCurso}</span>
+              <small>{c.anioProduccion}</small>
             </li>
           ))}
         </ul>
@@ -42,72 +63,35 @@ const AdminCoursesView = () => {
       <div className="teacher-courses-form">
         <h2>Crear nuevo curso</h2>
         <form onSubmit={handleSubmit}>
-          <label>
-            Nombre del curso
-            <input
-              name="nombre"
-              value={form.nombre}
-              onChange={handleChange}
-              required
-            />
+          <label>Nombre del curso
+            <input name="nombreCurso" value={form.nombreCurso} onChange={handleChange} required />
           </label>
-          <label>
-            Resumen
-            <input
-              name="resumen"
-              value={form.resumen}
-              onChange={handleChange}
-            />
+          <label>Resumen
+            <input name="resumen" value={form.resumen} onChange={handleChange} />
           </label>
-          <label>
-            Descripción
-            <textarea
-              name="descripcion"
-              value={form.descripcion}
-              onChange={handleChange}
-              required
-            />
+          <label>Descripción
+            <textarea name="descripcion" value={form.descripcion} onChange={handleChange} required />
           </label>
           <div className="form-row">
-            <label>
-              Año
-              <input
-                type="number"
-                name="anio"
-                value={form.anio}
-                onChange={handleChange}
-                required
-              />
+            <label>Año
+              <input type="number" name="anioProduccion" value={form.anioProduccion} onChange={handleChange} required />
             </label>
-            <label>
-              Dificultad
-              <select
-                name="dificultad"
-                value={form.dificultad}
-                onChange={handleChange}
-              >
-                <option>Principiante</option>
-                <option>Intermedio</option>
-                <option>Avanzado</option>
+            <label>Dificultad
+              <select name="idDificultad" value={form.idDificultad} onChange={handleChange}>
+                <option value={1}>Principiante</option>
+                <option value={2}>Intermedio</option>
+                <option value={3}>Avanzado</option>
               </select>
             </label>
-            <label>
-              Temática
-              <select
-                name="tematica"
-                value={form.tematica}
-                onChange={handleChange}
-              >
-                <option>Programación</option>
-                <option>Diseño</option>
-                <option>Negocios</option>
+            <label>Temática
+              <select name="idTematica" value={form.idTematica} onChange={handleChange}>
+                <option value={1}>Programación</option>
+                <option value={2}>Diseño</option>
+                <option value={3}>Negocios</option>
               </select>
             </label>
           </div>
-
-          <button className="btn-primary" type="submit">
-            Guardar curso
-          </button>
+          <button className="btn-primary" type="submit">Guardar curso</button>
         </form>
       </div>
     </section>
