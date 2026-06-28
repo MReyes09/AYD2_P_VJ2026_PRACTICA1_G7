@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="4A2022B4-5E3A-0620-D88E-49F95B205428" name="Dificultad">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>D9F11C94-C2DD-ABDB-4402-8D7D8DA68D08</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<abbreviation>D</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="idDificultad" id="763C4765-7D21-C924-FFB2-724C6CB8ED57">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>6BC3B92A-08BD-D424-ED86-8B4FFFC67B3E</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipoDificultad" id="8B197E84-945E-07C7-917F-B1CB444124F3">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>5F4263A1-7085-553E-C0CB-6F262D498B93</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="5319F40F-9449-77CD-9CA5-09A92365C9B6" name="Dificultad_PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>F1126D1D-818C-C7C9-E916-F6F43078114A</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="763C4765-7D21-C924-FFB2-724C6CB8ED57"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

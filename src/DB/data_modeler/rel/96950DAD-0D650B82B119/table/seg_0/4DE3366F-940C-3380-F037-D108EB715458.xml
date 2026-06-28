@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="4DE3366F-940C-3380-F037-D108EB715458" name="Estudiante_Curso">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="idCurso" id="47122416-F6EE-376F-7622-125695BC4CB8">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CFB0428B-16D3-C352-AA5C-86116186AFFA" referredColumn="1403D543-9714-EE56-6BDD-E1D5CDA9D1E8"/>
+</associations>
+</Column>
+<Column name="idPersona" id="EB14EDE7-93C0-4072-F1B2-C1457F9D6995">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1EDE4C7E-2FC7-FFB1-37AB-84F329DC016B" referredColumn="C6402C86-B68F-12D3-1A4D-D754CBD2131E"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4E0B5DC2-8B28-01DD-92F1-CD7418979F37" name="Estudiante_Curso_PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="47122416-F6EE-376F-7622-125695BC4CB8"/>
+<colUsage columnID="EB14EDE7-93C0-4072-F1B2-C1457F9D6995"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3474B1CE-8B7F-BF27-747D-C455741A8DD4" name="Curso_FKv2">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>26FB83DC-63FE-4ED7-8720-692D1BE8F302</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="47122416-F6EE-376F-7622-125695BC4CB8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8FF9FE3D-EC88-FFE0-3333-AF231E242156" name="Persona_FKv2">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>26FB83DC-63FE-4ED7-8720-692D1BE8F302</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="EB14EDE7-93C0-4072-F1B2-C1457F9D6995"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="D36D6059-16C3-D0D2-EFBE-D8A08CE08AEF" containerWithKeyObject="82CC3302-2E65-3388-0678-A66B64106631" localFKIndex="8D4F5B09-95A7-8A17-A5C2-E3F16443FEAA" name="Tematica_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>7DAE6AD7-9B48-DE78-BFFE-7560C31D039B</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<referredTableLongName>Tematica</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>106169C9-EDDA-64FE-89B4-22BD17BD48D0</referredTableID>
+<keyObject>9E6A1EE6-171D-8539-4F23-2C34DD271B21</keyObject>
+<referredKeyID>9E6A1EE6-171D-8539-4F23-2C34DD271B21</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>idTematica</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

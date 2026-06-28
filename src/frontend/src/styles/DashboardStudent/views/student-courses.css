@@ -1,0 +1,31 @@
+.student-courses {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.student-courses-header h1 {
+  margin: 0 0 0.4rem;
+}
+
+.student-courses-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.student-courses-filters {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr 1.1fr;
+  gap: 1rem;
+}
+
+.student-courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.student-courses .student-course-card {
+  background-color: rgba(15, 23, 42, 0.95);
+}

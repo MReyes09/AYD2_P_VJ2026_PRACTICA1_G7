@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="9BA96066-BE92-33D2-9C0D-29EEBAD327D2" containerWithKeyObject="5076BFF1-2324-75B6-A7B3-1F9A2D1AB841" localFKIndex="3B5FCAB5-F7FB-44AE-F7EB-C0860CBA0046" name="EstadoSuscripcion_FK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>38482C7B-1D44-F935-3185-A0444E2D0024</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<referredTableLongName>EstadoSuscripcion</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>E00DCB6F-4BBC-4F44-585D-DFF0189E47B8</referredTableID>
+<keyObject>CF1BC568-DD5A-1FC9-3248-905322ED45A2</keyObject>
+<referredKeyID>CF1BC568-DD5A-1FC9-3248-905322ED45A2</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>idEstadoSuscripcion</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

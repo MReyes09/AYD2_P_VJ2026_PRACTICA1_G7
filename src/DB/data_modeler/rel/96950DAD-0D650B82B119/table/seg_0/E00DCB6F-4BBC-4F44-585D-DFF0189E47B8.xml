@@ -1,0 +1,50 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="E00DCB6F-4BBC-4F44-585D-DFF0189E47B8" name="EstadoSuscripcion">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>BA5D5CF6-AED5-6CEF-FEB8-9841FB86EAE2</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<abbreviation>ES</abbreviation>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="idEstadoSuscripcion" id="FF6F3BB9-E849-20D2-9BAC-09A4FD3B68BF">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>50150F55-6FE8-AD36-741A-0376E7D6E80C</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="tipoEstadoSolicitud" id="A89F1C9B-A99E-10BA-466F-F17BA27C0BD7">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>6216B7DE-5F6C-5F47-4FF3-837A916485E6</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<dataTypeSize>12</dataTypeSize>
+<ownDataTypeParameters>12,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="CF1BC568-DD5A-1FC9-3248-905322ED45A2" name="EstadoSuscripcion_PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:07:55 UTC</createdTime>
+<generatorID>16385D4F-BE66-EE5A-0D07-D24B7A0B607B</generatorID>
+<ownerDesignName>data_modeler</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FF6F3BB9-E849-20D2-9BAC-09A4FD3B68BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

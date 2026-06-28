@@ -1,0 +1,126 @@
+.student-my-courses {
+  display: grid;
+  grid-template-columns: 0.9fr 2fr;
+  gap: 1.6rem;
+  height: calc(100vh - 4rem);
+}
+
+.my-courses-list {
+  background-color: rgba(15, 23, 42, 0.95);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1.2rem;
+  overflow-y: auto;
+}
+
+.my-courses-list h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+}
+
+.my-courses-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.my-courses-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+.my-courses-list li:hover {
+  background-color: rgba(15, 23, 42, 0.9);
+}
+
+.my-courses-list li.active {
+  background-color: rgba(56, 189, 248, 0.12);
+  color: var(--color-text-main);
+}
+
+.my-courses-list .progreso {
+  font-size: 0.78rem;
+  color: var(--color-accent-soft);
+}
+
+.my-courses-content {
+  background-color: rgba(15, 23, 42, 0.95);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1.3rem 1.5rem;
+  overflow-y: auto;
+}
+
+.my-courses-content h2 {
+  margin: 0 0 0.4rem;
+}
+
+.my-courses-content p {
+  margin: 0 0 1rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.contenido-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.contenido-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  background-color: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.contenido-item h3 {
+  margin: 0 0 0.2rem;
+  font-size: 0.95rem;
+}
+
+.contenido-item .duracion {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+
+.video-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.video-titulo {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.video-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 8px;
+}
+
+.video-placeholder {
+  color: var(--text-muted, #888);
+  margin-bottom: 1rem;
+}
+
+.contenido-item.reproduciendo {
+  border-color: #22d3ee;
+}
+
+.badge-reproduciendo {
+  font-size: 0.7rem;
+  color: #22d3ee;
+  margin-left: 0.5rem;
+}

@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="01ECEACD-997B-5766-5F2A-D8B065C938AE" name="Tematica">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:05:36 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<shortName>T</shortName>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="idTematica" id="7B1C3768-3CE2-9ACE-69B3-D5350B4736AE">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:05:42 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="tipoTematica" id="CC6F753B-C3D5-7BC4-266F-7F78C0438B6D">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:05:50 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>A3A3C77D-0366-9768-FF89-1C25E56881C8</logicalDatatype>
+<dataTypeSize>25</dataTypeSize>
+<ownDataTypeParameters>25,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="37D3DF91-CA0F-27E9-5F69-5873C45D69B9" name="Tematica PK">
+<createdBy>matth</createdBy>
+<createdTime>2026-06-24 20:05:49 UTC</createdTime>
+<ownerDesignName>data_modeler</ownerDesignName>
+<engineerTo>
+<item key="96950DAD-274D-0027-4C30-0D650B82B119" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>7B1C3768-3CE2-9ACE-69B3-D5350B4736AE</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
