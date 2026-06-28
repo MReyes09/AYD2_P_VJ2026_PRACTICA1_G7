@@ -4,13 +4,13 @@ import CourseEditModal from "../CourseEditModal"; // ajusta la ruta
 import "../../../styles/DashboardTeacher/views/teacher-courses.css";
 import { useToast } from "../../../context/ToastContext";
 
-
 const AdminCoursesView = () => {
   const [cursos, setCursos] = useState([]);
   const [dificultades, setDificultades] = useState([]);
   const [tematicas, setTematicas] = useState([]);
 
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
 
   const [form, setForm] = useState({
     nombreCurso: "",
@@ -24,16 +24,19 @@ const AdminCoursesView = () => {
 
   const { showToast } = useToast();
 
-  const handleCourseUpdated = (cursoActualizado) => {
-    setCursos((prev) =>
-      prev.map((c) =>
-        c.idCurso === cursoActualizado.idCurso ? { ...c, ...cursoActualizado } : c
-      )
-    );
+  const handleOpenEdit = (curso) => {
+    setSelectedCourse(curso);
+    setIsEditOpen(true);
   };
 
-  const handleCourseDeleted = (idCurso) => {
-    setCursos((prev) => prev.filter((c) => c.idCurso !== idCurso));
+  // Opcional: si en algún momento quieres reflejar cambios de contenido en cursos
+  const handleContentUpdated = (contenidoActualizado) => {
+    console.log("Contenido actualizado", contenidoActualizado);
+    // aquí podrías, por ejemplo, refrescar los cursos o marcar algo en estado
+  };
+
+  const handleContentDeleted = (idContenido) => {
+    console.log("Contenido eliminado", idContenido);
   };
 
   useEffect(() => {
@@ -47,7 +50,6 @@ const AdminCoursesView = () => {
     fetch("http://localhost:5000/dificultades")
       .then((r) => r.json())
       .then((data) => {
-        // Asumiendo que el servicio devuelve un array simple
         setDificultades(data.data || data || []);
       })
       .catch((err) => console.error("Error cargando dificultades", err));
@@ -99,34 +101,34 @@ const AdminCoursesView = () => {
   return (
     <section className="teacher-courses">
       <div className="teacher-courses-list">
-      <h2>Mis cursos</h2>
-      <table className="courses-table">
-        <thead>
-          <tr>
-            <th>Nombre del curso</th>
-            <th>Año</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cursos.map((c) => (
-            <tr key={c.idCurso}>
-              <td>{c.nombreCurso}</td>
-              <td>{c.anioProduccion}</td>
-              <td>
-                <button
-                  className="btn-secondary btn-sm"
-                  type="button"
-                  onClick={() => setIsEditOpen(true)}
-                >
-                  Editar
-                </button>
-              </td>
+        <h2>Mis cursos</h2>
+        <table className="courses-table">
+          <thead>
+            <tr>
+              <th>Nombre del curso</th>
+              <th>Año</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {cursos.map((c) => (
+              <tr key={c.idCurso}>
+                <td>{c.nombreCurso}</td>
+                <td>{c.anioProduccion}</td>
+                <td>
+                  <button
+                    className="btn-secondary btn-sm"
+                    type="button"
+                    onClick={() => handleOpenEdit(c)}
+                  >
+                    Editar contenido
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div className="teacher-courses-form">
         <h2>Crear nuevo curso</h2>
@@ -193,16 +195,18 @@ const AdminCoursesView = () => {
         </form>
       </div>
 
-       <CourseEditModal
+      <CourseEditModal
         isOpen={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        cursos={cursos}
+        onClose={() => {
+          setIsEditOpen(false);
+          setSelectedCourse(null);
+        }}
+        curso={selectedCourse}
         dificultades={dificultades}
         tematicas={tematicas}
-        onCourseUpdated={handleCourseUpdated}
-        onCourseDeleted={handleCourseDeleted}
+        onContentUpdated={handleContentUpdated}
+        onContentDeleted={handleContentDeleted}
       />
-
     </section>
   );
 };

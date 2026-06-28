@@ -6,52 +6,89 @@ import "../../styles/DashboardTeacher/views/teacher-courses.css";
 const CourseEditModal = ({
   isOpen,
   onClose,
-  cursos,
-  dificultades,
+  curso,           // curso seleccionado
+  dificultades,    // actualmente no se usan, pero los puedes usar luego
   tematicas,
-  onCourseUpdated,
-  onCourseDeleted,
+  onContentUpdated,
+  onContentDeleted,
 }) => {
   const { showToast } = useToast();
-  const [selectedId, setSelectedId] = useState("");
+
+  const [contenidos, setContenidos] = useState([]);
+  const [selectedContentId, setSelectedContentId] = useState("");
+  const [tipoContenidos, setTipoContenidos] = useState([]);
+
   const [form, setForm] = useState({
-    idCurso: null,
-    nombreCurso: "",
-    resumen: "",
+    idContenido: null,
+    titulo: "",
+    pathContenido: "",
     descripcion: "",
-    anioProduccion: new Date().getFullYear(),
-    idDificultad: 1,
-    idTematica: 1,
+    idTipoContenido: "",
   });
 
+  // Reset al cerrar
   useEffect(() => {
     if (!isOpen) {
-      setSelectedId("");
+      setContenidos([]);
+      setSelectedContentId("");
       setForm({
-        idCurso: null,
-        nombreCurso: "",
-        resumen: "",
+        idContenido: null,
+        titulo: "",
+        pathContenido: "",
         descripcion: "",
-        anioProduccion: new Date().getFullYear(),
-        idDificultad: 1,
-        idTematica: 1,
+        idTipoContenido: "",
       });
     }
   }, [isOpen]);
 
-  const handleSelectCourse = (e) => {
+  // Cargar tipos de contenido cuando se abre el modal
+  useEffect(() => {
+    if (!isOpen) return;
+    fetch("http://localhost:5000/tipos-contenido")
+      .then((r) => r.json())
+      .then((data) => {
+        setTipoContenidos(data.data || data || []);
+      })
+      .catch((err) => {
+        console.error("Error cargando tipos de contenido", err);
+        showToast("error", "Error cargando tipos de contenido");
+      });
+  }, [isOpen, showToast]);
+
+  // Cargar contenidos del curso seleccionado cuando se abre
+  useEffect(() => {
+    if (!isOpen || !curso) return;
+
+    fetch(`http://localhost:5000/admin/cursos/${curso.idCurso}/contenido`)
+      .then((r) => r.json())
+      .then((data) => {
+        setContenidos(data.data || data || []);
+      })
+      .catch((err) => {
+        console.error("Error cargando contenido del curso", err);
+        showToast("error", "Error cargando contenido del curso");
+      });
+  }, [isOpen, curso, showToast]);
+
+  const handleSelectContent = (e) => {
     const id = parseInt(e.target.value);
-    setSelectedId(id);
-    const curso = cursos.find((c) => c.idCurso === id);
-    if (curso) {
+    setSelectedContentId(id || "");
+    const contenido = contenidos.find((c) => c.idContenido === id);
+    if (contenido) {
       setForm({
-        idCurso: curso.idCurso,
-        nombreCurso: curso.nombreCurso,
-        resumen: curso.resumen || "",
-        descripcion: curso.descripcion || "",
-        anioProduccion: curso.anioProduccion,
-        idDificultad: curso.idDificultad,
-        idTematica: curso.idTematica,
+        idContenido: contenido.idContenido,
+        titulo: contenido.titulo || "",
+        pathContenido: contenido.pathContenido || "",
+        descripcion: contenido.descripcion || "",
+        idTipoContenido: contenido.idTipoContenido || "",
+      });
+    } else {
+      setForm({
+        idContenido: null,
+        titulo: "",
+        pathContenido: "",
+        descripcion: "",
+        idTipoContenido: "",
       });
     }
   };
@@ -61,93 +98,119 @@ const CourseEditModal = ({
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (!form.idCurso) return;
+    if (!form.idContenido) return;
 
     try {
-      // TODO: reemplazar cuando tengas endpoint real
-      // const res = await fetch(`http://localhost:5000/admin/cursos/${form.idCurso}`, {
-      //   method: "PUT",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({
-      //     ...form,
-      //     anioProduccion: parseInt(form.anioProduccion),
-      //     idDificultad: parseInt(form.idDificultad),
-      //     idTematica: parseInt(form.idTematica),
-      //   }),
-      // });
-      // const data = await res.json();
-      // if (!res.ok) throw new Error(data.error || "Error actualizando curso");
+      const res = await fetch(
+        `http://localhost:5000/admin/cursos/contenido/${form.idContenido}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            titulo: form.titulo,
+            pathContenido: form.pathContenido,
+            descripcion: form.descripcion,
+            idTipoContenido: form.idTipoContenido
+              ? parseInt(form.idTipoContenido)
+              : undefined,
+          }),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error actualizando contenido");
 
-      // Por ahora, simulamos update en frontend
-      onCourseUpdated({
-        ...form,
-        anioProduccion: parseInt(form.anioProduccion),
-        idDificultad: parseInt(form.idDificultad),
-        idTematica: parseInt(form.idTematica),
-      });
-      showToast("success", "Curso actualizado");
+      setContenidos((prev) =>
+        prev.map((c) =>
+          c.idContenido === form.idContenido ? { ...c, ...data } : c
+        )
+      );
+      onContentUpdated && onContentUpdated(data);
+      showToast("success", "Contenido actualizado exitosamente");
       onClose();
     } catch (err) {
-      showToast("error", "Error actualizando curso");
+      console.error(err);
+      showToast("error", "Error actualizando contenido");
     }
   };
 
   const handleDelete = async () => {
-    if (!form.idCurso) return;
-    if (!window.confirm("¿Seguro que deseas eliminar este curso?")) return;
+    if (!form.idContenido) return;
+    if (!window.confirm("¿Seguro que deseas eliminar este contenido?")) return;
 
     try {
-      // TODO: reemplazar cuando tengas endpoint real
-      // const res = await fetch(`http://localhost:5000/admin/cursos/${form.idCurso}`, {
-      //   method: "DELETE",
-      // });
-      // const data = await res.json();
-      // if (!res.ok) throw new Error(data.error || "Error eliminando curso");
+      const res = await fetch(
+        `http://localhost:5000/admin/cursos/contenido/${form.idContenido}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error eliminando contenido");
 
-      onCourseDeleted(form.idCurso);
-      showToast("success", "Curso eliminado");
+      setContenidos((prev) =>
+        prev.filter((c) => c.idContenido !== form.idContenido)
+      );
+      onContentDeleted && onContentDeleted(form.idContenido);
+
+      showToast("success", "Contenido eliminado exitosamente");
       onClose();
     } catch (err) {
-      showToast("error", "Error eliminando curso");
+      console.error(err);
+      showToast("error", "Error eliminando contenido");
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !curso) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal-content course-edit-modal">
-        <h2>Editar / eliminar curso</h2>
+        <div className="modal-header">
+          <h2>
+            Contenido de: {curso.nombreCurso} ({curso.anioProduccion})
+          </h2>
+          <button
+            className="btn-secondary btn-sm"
+            type="button"
+            onClick={onClose}
+          >
+            Cerrar
+          </button>
+        </div>
 
         <label>
-          Selecciona un curso
-          <select value={selectedId || ""} onChange={handleSelectCourse}>
-            <option value="">-- Selecciona --</option>
-            {cursos.map((c) => (
-              <option key={c.idCurso} value={c.idCurso}>
-                {c.nombreCurso} ({c.anioProduccion})
+          Contenidos del curso
+          <select
+            value={selectedContentId || ""}
+            onChange={handleSelectContent}
+          >
+            <option value="">-- Selecciona contenido --</option>
+            {contenidos.map((ct) => (
+              <option key={ct.idContenido} value={ct.idContenido}>
+                {ct.titulo}
               </option>
             ))}
           </select>
         </label>
 
-        {form.idCurso && (
+        {form.idContenido && (
           <form onSubmit={handleUpdate} className="course-edit-form">
             <label>
-              Nombre del curso
+              Título
               <input
-                name="nombreCurso"
-                value={form.nombreCurso}
+                name="titulo"
+                value={form.titulo}
                 onChange={handleChange}
                 required
               />
             </label>
             <label>
-              Resumen
+              URL / path del contenido
               <input
-                name="resumen"
-                value={form.resumen}
+                name="pathContenido"
+                value={form.pathContenido}
                 onChange={handleChange}
+                required
               />
             </label>
             <label>
@@ -156,44 +219,20 @@ const CourseEditModal = ({
                 name="descripcion"
                 value={form.descripcion}
                 onChange={handleChange}
-                required
               />
             </label>
             <div className="form-row">
               <label>
-                Año
-                <input
-                  type="number"
-                  name="anioProduccion"
-                  value={form.anioProduccion}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-              <label>
-                Dificultad
+                Tipo de contenido
                 <select
-                  name="idDificultad"
-                  value={form.idDificultad}
+                  name="idTipoContenido"
+                  value={form.idTipoContenido || ""}
                   onChange={handleChange}
                 >
-                  {dificultades.map((d) => (
-                    <option key={d.idDificultad} value={d.idDificultad}>
-                      {d.tipoDificultad}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Temática
-                <select
-                  name="idTematica"
-                  value={form.idTematica}
-                  onChange={handleChange}
-                >
-                  {tematicas.map((t) => (
-                    <option key={t.idTematica} value={t.idTematica}>
-                      {t.tipoTematica}
+                  <option value="">Sin tipo</option>
+                  {tipoContenidos.map((t) => (
+                    <option key={t.idTipoContenido} value={t.idTipoContenido}>
+                      {t.nombreTipo || t.tipoContenido || t.descripcion}
                     </option>
                   ))}
                 </select>
@@ -202,28 +241,21 @@ const CourseEditModal = ({
 
             <div className="modal-actions">
               <button className="btn-primary" type="submit">
-                Actualizar
+                Actualizar contenido
               </button>
               <button
-                className="btn-danger"
+                className="btn-warning"
                 type="button"
                 onClick={handleDelete}
               >
-                Eliminar
-              </button>
-              <button
-                className="btn-secondary"
-                type="button"
-                onClick={onClose}
-              >
-                Cerrar
+                Eliminar contenido
               </button>
             </div>
           </form>
         )}
 
-        {!form.idCurso && (
-          <p>Selecciona un curso para poder editarlo o eliminarlo.</p>
+        {!form.idContenido && (
+          <p>Selecciona un contenido para poder editarlo o eliminarlo.</p>
         )}
       </div>
     </div>

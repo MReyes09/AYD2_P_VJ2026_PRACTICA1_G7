@@ -202,3 +202,10 @@ button {
 .btn-danger:hover {
   background-color: #dc2626;
 }
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
