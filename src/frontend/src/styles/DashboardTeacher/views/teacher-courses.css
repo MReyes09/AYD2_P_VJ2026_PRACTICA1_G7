@@ -16,6 +16,7 @@
 .teacher-courses-form h2 {
   margin: 0 0 0.8rem;
   font-size: 1.05rem;
+  color: #e5e7eb; /* encabezado claro sobre fondo oscuro */
 }
 
 .teacher-courses-list ul {
@@ -34,16 +35,170 @@
   border: 1px solid rgba(148, 163, 184, 0.3);
   font-size: 0.85rem;
   margin-bottom: 0.45rem;
+  color: #e5e7eb;
 }
 
-.teacher-courses-form form {
+/* Modal */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75); /* más acorde al layout */
   display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-.teacher-courses-form .form-row {
+.modal-content.course-edit-modal {
+  background-color: rgba(15, 23, 42, 0.96);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  padding: 1.3rem 1.4rem;
+  max-width: 600px;
+  width: 100%;
+  color: #e5e7eb;
+}
+
+.course-edit-modal h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1.05rem;
+  color: #e5e7eb;
+}
+
+.course-edit-modal label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  color: #cbd5f5;
+}
+
+.course-edit-modal input,
+.course-edit-modal textarea,
+.course-edit-modal select {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background-color: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+}
+
+.course-edit-modal .form-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.8rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+/* Tabla de cursos */
+
+.courses-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+}
+
+.courses-table th,
+.courses-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  text-align: left;
+}
+
+.courses-table th {
+  font-weight: 600;
+  background-color: rgba(15, 23, 42, 0.9);
+}
+
+/* Botón pequeño */
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Botones genéricos */
+
+button {
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+/* Base para todos los botones del dashboard */
+
+.btn-primary,
+.btn-secondary,
+.btn-warning {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px; /* pill para que no se vea cuadrado */
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    box-shadow 0.15s ease, transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+/* Variante pequeña que ya usas */
+
+.btn-sm {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* Colores específicos */
+
+.btn-primary {
+  background-color: #2563eb; /* azul */
+  color: #e5e7eb;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(148, 163, 184, 0.2);
+}
+
+/* WARNING (Eliminar) */
+
+.btn-warning {
+  background-color: #f59e0b; /* amarillo/naranja */
+  color: #111827;
+}
+
+.btn-warning:hover {
+  background-color: #d97706;
+}
+
+/* (Opcional) Danger si lo vuelves a usar algún día */
+
+.btn-danger {
+  background-color: #ef4444; /* rojo */
+  color: #fee2e2;
+  border-radius: 32px;
+  width: 100px;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
 }
