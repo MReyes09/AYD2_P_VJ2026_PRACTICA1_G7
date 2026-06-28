@@ -1,0 +1,201 @@
+/* src/components/dashboard-admin/modals/modal-catalogo.css */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.modal-box {
+    background-color: rgba(15, 23, 42, 0.98);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: var(--radius-card);
+    padding: 1.6rem 1.8rem;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Header */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: color 0.15s;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+/* Body */
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.modal-label {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.modal-input {
+    background-color: rgba(30, 41, 59, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 8px;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    color: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-input:focus {
+    border-color: rgba(148, 163, 184, 0.7);
+}
+
+.modal-input--error {
+    border-color: rgba(239, 68, 68, 0.7);
+}
+
+.modal-input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.modal-error {
+    font-size: 0.82rem;
+    color: rgb(239, 68, 68);
+    padding: 0.5rem 0.7rem;
+    background-color: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 6px;
+}
+
+/* Advertencia de confirmación */
+.modal-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.7rem 0.9rem;
+    background-color: rgba(234, 179, 8, 0.08);
+    border: 1px solid rgba(234, 179, 8, 0.3);
+    border-radius: 8px;
+    margin-top: 0.3rem;
+}
+
+.modal-warning-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.modal-warning p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+}
+
+.modal-warning strong {
+    color: #fff;
+}
+
+/* Footer */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.7rem;
+}
+
+.btn-modal-cancel {
+    background: none;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 8px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-modal-cancel:hover:not(:disabled) {
+    border-color: rgba(148, 163, 184, 0.65);
+    color: #fff;
+}
+
+.btn-modal-confirm {
+    background-color: rgba(59, 130, 246, 0.85);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.88rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.15s;
+}
+
+.btn-modal-confirm:hover:not(:disabled) {
+    background-color: rgba(59, 130, 246, 1);
+}
+
+/* Botón eliminar — rojo, se intensifica al confirmar */
+.btn-modal-delete {
+    background-color: rgba(239, 68, 68, 0.75);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.88rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.15s;
+}
+
+.btn-modal-delete:hover:not(:disabled) {
+    background-color: rgba(239, 68, 68, 0.9);
+}
+
+.btn-modal-delete--confirm {
+    background-color: rgba(239, 68, 68, 1);
+}
+
+.btn-modal-delete--confirm:hover:not(:disabled) {
+    background-color: rgba(220, 38, 38, 1);
+}
+
+/* Disabled general */
+.btn-modal-confirm:disabled,
+.btn-modal-cancel:disabled,
+.btn-modal-delete:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

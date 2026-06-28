@@ -8,7 +8,8 @@ from models.tarjeta import Tarjeta
 from repositories.persona_repositories import PersonaRepository
 from repositories.tarjeta_repositories import TarjetaRepository
 from repositories.rol_repositories import RolRepository
-from extensions import db, bcrypt
+from extensions import db
+import bcrypt
 
 # Carpeta donde se guardan las fotografías
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "..", "uploads", "fotografias")
