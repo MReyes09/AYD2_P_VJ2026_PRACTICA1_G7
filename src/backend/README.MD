@@ -1163,3 +1163,155 @@ curl -X POST http://localhost:5000/admin/cursos/1/contenido \
     "detalle": "..."
 }
 ```
+
+--- 
+
+## Endpoints — Ver, Modificar y Eliminar Contenido de Curso
+
+---
+
+## GET `/admin/cursos/{id}/contenido` — Ver contenido de un curso
+
+Lista todo el contenido asociado a un curso.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `GET` |
+| **URL** | `/admin/cursos/{id}/contenido` |
+
+### Parámetros de ruta
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| `id` | int | ID del curso |
+
+```bash
+curl -X GET http://localhost:5000/admin/cursos/1/contenido
+```
+
+### Respuestas
+
+#### `200 OK`
+```json
+[
+    {
+        "idContenido": 1,
+        "titulo": "Introducción a Python",
+        "pathContenido": "https://www.youtube.com/watch?v=ejemplo",
+        "descripcion": "Primera clase del curso",
+        "idCurso": 1,
+        "idTipoContenido": 1
+    },
+    {
+        "idContenido": 2,
+        "titulo": "Variables y tipos de datos",
+        "pathContenido": "https://www.youtube.com/watch?v=ejemplo2",
+        "descripcion": null,
+        "idCurso": 1,
+        "idTipoContenido": 1
+    }
+]
+```
+
+#### `404 Not Found` — Curso no existe
+```json
+{ "error": "Curso no encontrado." }
+```
+
+---
+
+## PUT `/admin/cursos/contenido/{id}` — Modificar contenido
+
+Actualiza los campos enviados. Todos son opcionales, solo se modifican los que lleguen en el body.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `PUT` |
+| **URL** | `/admin/cursos/contenido/{id}` |
+| **Body** | `application/json` |
+
+### Parámetros de ruta
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| `id` | int | ID del contenido |
+
+### Campos del body
+
+| Campo | Tipo | Requerido | Descripción |
+|-------|------|-----------|-------------|
+| `titulo` | string | No | Nuevo título |
+| `pathContenido` | string | No | Nueva URL del video o archivo |
+| `descripcion` | string | No | Nueva descripción |
+| `idTipoContenido` | int | No | Nuevo tipo de contenido |
+
+```bash
+curl -X PUT http://localhost:5000/admin/cursos/contenido/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "titulo": "Nuevo título",
+    "pathContenido": "https://nuevo-link.com/video",
+    "descripcion": "Nueva descripción del contenido"
+  }'
+```
+
+### Respuestas
+
+#### `200 OK`
+```json
+{
+    "mensaje": "Contenido actualizado exitosamente.",
+    "idContenido": 1,
+    "titulo": "Nuevo título",
+    "pathContenido": "https://nuevo-link.com/video",
+    "descripcion": "Nueva descripción del contenido",
+    "idCurso": 1,
+    "idTipoContenido": 1
+}
+```
+
+#### `404 Not Found` — Contenido no existe
+```json
+{ "error": "Contenido no encontrado." }
+```
+
+---
+
+## DELETE `/admin/cursos/contenido/{id}` — Eliminar contenido
+
+Elimina un contenido específico del curso.
+
+| Campo | Valor |
+|-------|-------|
+| **Método** | `DELETE` |
+| **URL** | `/admin/cursos/contenido/{id}` |
+
+### Parámetros de ruta
+
+| Parámetro | Tipo | Descripción |
+|-----------|------|-------------|
+| `id` | int | ID del contenido |
+
+```bash
+curl -X DELETE http://localhost:5000/admin/cursos/contenido/1
+```
+
+### Respuestas
+
+#### `200 OK`
+```json
+{ "mensaje": "Contenido eliminado exitosamente." }
+```
+
+#### `404 Not Found` — Contenido no existe
+```json
+{ "error": "Contenido no encontrado." }
+```
+
+#### `500 Internal Server Error`
+```json
+{
+    "error": "Error interno del servidor.",
+    "detalle": "..."
+}
+```

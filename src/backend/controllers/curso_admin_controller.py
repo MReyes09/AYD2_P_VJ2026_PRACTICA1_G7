@@ -45,3 +45,40 @@ def agregar_contenido(id_curso):
         return jsonify({"error": str(e)}), 400
     except Exception as e:
         return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+    
+
+@curso_admin_bp.route("/<int:id_curso>/contenido", methods=["GET"])
+def ver_contenido(id_curso):
+    """GET /admin/cursos/<id_curso>/contenido — Lista todo el contenido del curso."""
+    try:
+        return jsonify(CursoAdminService.ver_contenido(id_curso)), 200
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+ 
+ 
+@curso_admin_bp.route("/contenido/<int:id_contenido>", methods=["PUT"])
+def actualizar_contenido(id_contenido):
+    """
+    PUT /admin/cursos/contenido/<id_contenido>
+    Actualiza los campos enviados. Todos son opcionales.
+    """
+    datos = request.get_json(force=True) or {}
+    try:
+        return jsonify(CursoAdminService.actualizar_contenido(id_contenido, datos)), 200
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
+ 
+ 
+@curso_admin_bp.route("/contenido/<int:id_contenido>", methods=["DELETE"])
+def eliminar_contenido(id_contenido):
+    """DELETE /admin/cursos/contenido/<id_contenido> — Elimina el contenido."""
+    try:
+        return jsonify(CursoAdminService.eliminar_contenido(id_contenido)), 200
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor.", "detalle": str(e)}), 500
